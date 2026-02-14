@@ -1,5 +1,8 @@
 # VXLAN Student Guide
 
+**Author:** Asad Yaseen
+**Contact:** asad4ntrp2@gmail.com
+
 A comprehensive guide covering VXLAN fabric technology from Layer 2 fundamentals through advanced data center and campus fabric architectures. Designed for network engineers, students, and professionals preparing for consultant-level interviews.
 
 ## What's Inside
