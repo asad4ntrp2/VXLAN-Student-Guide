@@ -1,0 +1,2593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VXLAN Fabric Technology - Student Guide</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-color: #1f2937;
+            --text-light: #6b7280;
+            --bg-color: #f9fafb;
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --code-bg: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.3;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .nav-container {
+            position: sticky;
+            top: 0;
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            width: 100%;
+        }
+
+        .toc {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .toc a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            background: var(--bg-color);
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .toc a:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Sections */
+        .section {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid var(--border-color);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section h2 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .section h3 {
+            color: var(--secondary-color);
+            font-size: 1.4rem;
+            margin: 1.5rem 0 1rem 0;
+        }
+
+        .section h4 {
+            color: var(--text-color);
+            font-size: 1.1rem;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        /* Part Headers */
+        .part-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 3rem 0 2rem 0;
+            text-align: center;
+        }
+
+        .part-header h2 {
+            color: white;
+            border-bottom: none;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Info Boxes */
+        .info-box {
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .info-box.definition {
+            background: #eff6ff;
+            border-color: var(--primary-color);
+        }
+
+        .info-box.tip {
+            background: #ecfdf5;
+            border-color: var(--success-color);
+        }
+
+        .info-box.warning {
+            background: #fffbeb;
+            border-color: var(--warning-color);
+        }
+
+        .info-box.danger {
+            background: #fef2f2;
+            border-color: var(--danger-color);
+        }
+
+        /* Tables */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background: var(--bg-color);
+        }
+
+        tr:hover {
+            background: #e0e7ff;
+        }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            color: #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+        }
+
+        code {
+            font-family: 'Consolas', 'Monaco', monospace;
+            background: #e5e7eb;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+        }
+
+        /* Diagrams */
+        .diagram {
+            background: #f8fafc;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Consolas', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre;
+            line-height: 1.4;
+        }
+
+        /* Animated Diagram */
+        .animated-diagram {
+            position: relative;
+            background: linear-gradient(135deg, #1e3a5f, #2d5a87);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+            color: white;
+            overflow: hidden;
+        }
+
+        .animated-diagram h4 {
+            color: white;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .network-animation {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .layer {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .device {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+            min-width: 100px;
+            transition: all 0.3s ease;
+        }
+
+        .device:hover {
+            background: rgba(255,255,255,0.2);
+            transform: scale(1.05);
+        }
+
+        .device.spine {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-color: #60a5fa;
+        }
+
+        .device.leaf {
+            background: linear-gradient(135deg, #10b981, #059669);
+            border-color: #34d399;
+        }
+
+        .device.server {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            border-color: #a78bfa;
+        }
+
+        .connection-lines {
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Packet Animation */
+        .packet-flow {
+            position: relative;
+            height: 60px;
+            margin: 1rem 0;
+        }
+
+        .packet {
+            position: absolute;
+            width: 30px;
+            height: 20px;
+            background: var(--warning-color);
+            border-radius: 4px;
+            animation: movePacket 3s infinite ease-in-out;
+        }
+
+        @keyframes movePacket {
+            0% { left: 0; }
+            50% { left: calc(100% - 30px); }
+            100% { left: 0; }
+        }
+
+        /* Comparison Cards */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .comparison-card {
+            background: var(--bg-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .comparison-card h4 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .comparison-card.old {
+            border-top: 4px solid var(--danger-color);
+        }
+
+        .comparison-card.new {
+            border-top: 4px solid var(--success-color);
+        }
+
+        /* Progress Indicator */
+        .chapter-progress {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        .chapter-number {
+            background: var(--primary-color);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        /* Lab Section */
+        .lab-section {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            border: 2px solid var(--warning-color);
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .lab-section h3 {
+            color: #92400e;
+        }
+
+        .lab-step {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid var(--warning-color);
+        }
+
+        /* Interview Section */
+        .interview-qa {
+            background: #f0fdf4;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+            border: 1px solid #86efac;
+        }
+
+        .interview-qa .question {
+            font-weight: bold;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .interview-qa .answer {
+            padding-left: 1rem;
+            border-left: 3px solid var(--success-color);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--code-bg);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .toc {
+                display: none;
+                flex-direction: column;
+                margin-top: 1rem;
+            }
+
+            .toc.active {
+                display: flex;
+            }
+
+            .main-content {
+                padding: 1rem;
+            }
+
+            .section {
+                padding: 1rem;
+            }
+
+            .layer {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .nav-container {
+                display: none;
+            }
+
+            .section {
+                break-inside: avoid;
+            }
+        }
+
+        /* Draw.io Diagram Containers */
+        .drawio-diagram {
+            background: #ffffff;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .drawio-diagram h4 {
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .drawio-diagram svg {
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .drawio-diagram .diagram-caption {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* Smooth Scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            font-size: 1.5rem;
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+        }
+
+        .back-to-top:hover {
+            background: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <header class="header" id="top">
+        <h1>VXLAN Fabric Technology</h1>
+        <p>A Comprehensive Student Guide</p>
+        <span class="version-badge">Version 1.1.0 | January 2026</span>
+    </header>
+
+    <nav class="nav-container">
+        <button class="nav-toggle" onclick="toggleNav()">Toggle Table of Contents</button>
+        <div class="toc" id="toc">
+            <a href="#part1">Part I: L2 Fundamentals</a>
+            <a href="#part2">Part II: Evolution to VXLAN</a>
+            <a href="#part3">Part III: Fabric Architecture</a>
+            <a href="#part4">Part IV: BGP EVPN</a>
+            <a href="#part5">Part V: Traffic Flow</a>
+            <a href="#part6">Part VI: Multicast</a>
+            <a href="#part7">Part VII: Vendors</a>
+            <a href="#part8">Part VIII: External</a>
+            <a href="#part9">Part IX: Labs</a>
+            <a href="#part10">Part X: Interview</a>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <!-- Introduction -->
+        <section class="section" id="intro">
+            <h2>Introduction</h2>
+            <p>Welcome to the comprehensive VXLAN Fabric Technology guide. This guide takes you from Layer 2 fundamentals through advanced VXLAN fabric architectures, preparing you for both implementation and interviews.</p>
+
+            <div class="animated-diagram">
+                <h4>The Evolution of Data Center Networking</h4>
+                <div class="network-animation">
+                    <div class="layer">
+                        <div class="device spine">Spine 1</div>
+                        <div class="device spine">Spine 2</div>
+                        <div class="device spine">Spine 3</div>
+                    </div>
+                    <div class="connection-lines">| | | | | | | | | |</div>
+                    <div class="layer">
+                        <div class="device leaf">Leaf 1</div>
+                        <div class="device leaf">Leaf 2</div>
+                        <div class="device leaf">Leaf 3</div>
+                        <div class="device leaf">Leaf 4</div>
+                    </div>
+                    <div class="connection-lines">| | | | | | | |</div>
+                    <div class="layer">
+                        <div class="device server">Server</div>
+                        <div class="device server">Server</div>
+                        <div class="device server">Server</div>
+                        <div class="device server">Server</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART I -->
+        <div class="part-header" id="part1">
+            <h2>Part I: Layer 2 Fundamentals</h2>
+            <p>Understanding the foundation before the evolution</p>
+        </div>
+
+        <section class="section" id="ch1">
+            <div class="chapter-progress">
+                <span class="chapter-number">1</span>
+                <span>Understanding VLANs</span>
+            </div>
+            <h2>Chapter 1: What is a VLAN?</h2>
+
+            <div class="info-box definition">
+                <strong>Definition:</strong> A VLAN (Virtual Local Area Network) is a logical grouping of network devices that allows them to communicate as if they were on the same physical network segment, regardless of their physical location.
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card new">
+                    <h4>✓ When to Use VLANs</h4>
+                    <ul>
+                        <li>Segmenting broadcast domains</li>
+                        <li>Grouping devices by department/function</li>
+                        <li>Implementing security policies</li>
+                        <li>Small to medium networks (&lt;4000 segments)</li>
+                        <li>Single data center deployments</li>
+                    </ul>
+                </div>
+                <div class="comparison-card old">
+                    <h4>✗ When NOT to Use VLANs</h4>
+                    <ul>
+                        <li>Need more than 4094 segments</li>
+                        <li>Multi-datacenter connectivity</li>
+                        <li>Need VM mobility across locations</li>
+                        <li>Large-scale cloud environments</li>
+                        <li>Use VXLAN instead for these cases</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Why VLANs Were Created</h3>
+
+            <div class="comparison-grid">
+                <div class="comparison-card old">
+                    <h4>Without VLANs (Problem)</h4>
+                    <ul>
+                        <li>Single broadcast domain</li>
+                        <li>All devices receive broadcasts</li>
+                        <li>Network congestion</li>
+                        <li>Security concerns</li>
+                        <li>No logical separation</li>
+                    </ul>
+                </div>
+                <div class="comparison-card new">
+                    <h4>With VLANs (Solution)</h4>
+                    <ul>
+                        <li>Separate broadcast domains</li>
+                        <li>Traffic isolated by VLAN</li>
+                        <li>Reduced congestion</li>
+                        <li>Enhanced security</li>
+                        <li>Logical grouping achieved</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>VLAN Port Types</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Port Type</th>
+                        <th>Description</th>
+                        <th>Use Case</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Access Port</strong></td>
+                        <td>Belongs to single VLAN</td>
+                        <td>End devices (PCs, printers)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Trunk Port</strong></td>
+                        <td>Carries multiple VLANs</td>
+                        <td>Switch-to-switch connections</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Native VLAN</strong></td>
+                        <td>Untagged VLAN on trunk</td>
+                        <td>Management, backward compatibility</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- VLAN Fundamentals Diagram -->
+            <div class="drawio-diagram">
+                <h4>VLAN Fundamentals Diagram</h4>
+                <svg viewBox="0 0 850 650" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', Arial, sans-serif;">
+                    <!-- Title -->
+                    <text x="425" y="35" text-anchor="middle" font-size="22" font-weight="bold" fill="#1f2937">VLAN Fundamentals</text>
+
+                    <!-- VLAN 10 Label Box -->
+                    <rect x="80" y="60" width="160" height="40" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="160" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">VLAN 10 (Sales)</text>
+
+                    <!-- VLAN 20 Label Box -->
+                    <rect x="580" y="60" width="190" height="40" rx="8" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="675" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">VLAN 20 (Engineering)</text>
+
+                    <!-- Layer 2 Switch -->
+                    <rect x="250" y="170" width="350" height="70" rx="10" fill="#dae8fc" stroke="#6c8ebf" stroke-width="3"/>
+                    <text x="425" y="210" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Layer 2 Switch</text>
+
+                    <!-- PC-A (VLAN 10) -->
+                    <rect x="80" y="320" width="90" height="60" rx="5" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="125" y="342" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">PC-A</text>
+                    <text x="125" y="358" text-anchor="middle" font-size="10" fill="#555">VLAN 10</text>
+                    <text x="125" y="372" text-anchor="middle" font-size="9" fill="#666">10.1.10.10</text>
+
+                    <!-- PC-B (VLAN 10) -->
+                    <rect x="200" y="320" width="90" height="60" rx="5" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="245" y="342" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">PC-B</text>
+                    <text x="245" y="358" text-anchor="middle" font-size="10" fill="#555">VLAN 10</text>
+                    <text x="245" y="372" text-anchor="middle" font-size="9" fill="#666">10.1.10.20</text>
+
+                    <!-- PC-C (VLAN 20) -->
+                    <rect x="530" y="320" width="90" height="60" rx="5" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="575" y="342" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">PC-C</text>
+                    <text x="575" y="358" text-anchor="middle" font-size="10" fill="#555">VLAN 20</text>
+                    <text x="575" y="372" text-anchor="middle" font-size="9" fill="#666">10.1.20.10</text>
+
+                    <!-- PC-D (VLAN 20) -->
+                    <rect x="660" y="320" width="90" height="60" rx="5" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="705" y="342" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">PC-D</text>
+                    <text x="705" y="358" text-anchor="middle" font-size="10" fill="#555">VLAN 20</text>
+                    <text x="705" y="372" text-anchor="middle" font-size="9" fill="#666">10.1.20.20</text>
+
+                    <!-- Connections with Port Labels -->
+                    <line x1="125" y1="320" x2="310" y2="240" stroke="#82b366" stroke-width="3"/>
+                    <text x="170" y="275" font-size="10" font-weight="bold" fill="#82b366">Gi0/1</text>
+
+                    <line x1="245" y1="320" x2="360" y2="240" stroke="#82b366" stroke-width="3"/>
+                    <text x="270" y="285" font-size="10" font-weight="bold" fill="#82b366">Gi0/2</text>
+
+                    <line x1="575" y1="320" x2="500" y2="240" stroke="#d6b656" stroke-width="3"/>
+                    <text x="560" y="285" font-size="10" font-weight="bold" fill="#d6b656">Gi0/3</text>
+
+                    <line x1="705" y1="320" x2="550" y2="240" stroke="#d6b656" stroke-width="3"/>
+                    <text x="660" y="275" font-size="10" font-weight="bold" fill="#d6b656">Gi0/4</text>
+
+                    <!-- Port Configuration Table -->
+                    <rect x="400" y="430" width="380" height="140" rx="5" fill="#1a1a2e"/>
+                    <text x="590" y="455" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">Port Configuration</text>
+
+                    <rect x="400" y="465" width="380" height="25" fill="#333"/>
+                    <text x="420" y="483" font-size="11" font-weight="bold" fill="#fff">Port    | Mode   | VLAN | Status</text>
+
+                    <rect x="400" y="490" width="380" height="25" fill="#d5e8d4"/>
+                    <text x="420" y="508" font-size="11" fill="#333">Gi0/1  | Access | 10   | Connected (PC-A)</text>
+
+                    <rect x="400" y="515" width="380" height="25" fill="#fff"/>
+                    <text x="420" y="533" font-size="11" fill="#333">Gi0/2  | Access | 10   | Connected (PC-B)</text>
+
+                    <rect x="400" y="540" width="380" height="25" fill="#fff2cc"/>
+                    <text x="420" y="558" font-size="11" fill="#333">Gi0/3  | Access | 20   | Connected (PC-C)</text>
+
+                    <!-- Legend -->
+                    <rect x="50" y="440" width="280" height="120" rx="8" fill="#f5f5f5" stroke="#666" stroke-width="1"/>
+                    <text x="70" y="465" font-size="13" font-weight="bold" fill="#333">Legend:</text>
+                    <rect x="70" y="480" width="15" height="15" fill="#d5e8d4" stroke="#82b366"/>
+                    <text x="95" y="493" font-size="11" fill="#333">VLAN 10 (Sales)</text>
+                    <rect x="70" y="505" width="15" height="15" fill="#fff2cc" stroke="#d6b656"/>
+                    <text x="95" y="518" font-size="11" fill="#333">VLAN 20 (Engineering)</text>
+                    <text x="70" y="545" font-size="10" fill="#555">Devices in same VLAN can communicate</text>
+                </svg>
+                <p class="diagram-caption">Figure 1.1: VLAN network topology with port assignments and VLAN membership</p>
+            </div>
+
+            <h3>802.1Q VLAN Tagging</h3>
+            <div class="diagram">
+Standard Ethernet Frame:
++------------+------------+------+---------+-----+
+| Dest MAC   | Src MAC    | Type | Payload | FCS |
+| (6 bytes)  | (6 bytes)  |(2B)  |         |(4B) |
++------------+------------+------+---------+-----+
+
+802.1Q Tagged Frame:
++------------+------------+--------+------+---------+-----+
+| Dest MAC   | Src MAC    |802.1Q  | Type | Payload | FCS |
+| (6 bytes)  | (6 bytes)  |Tag(4B) |(2B)  |         |(4B) |
++------------+------------+--------+------+---------+-----+
+                            |
+                            v
+               TPID: 0x8100 | VID: 1-4094
+            </div>
+
+            <h3>Configuration Examples</h3>
+            <h4>Cisco IOS</h4>
+            <pre>
+! Create VLANs
+Switch(config)# vlan 10
+Switch(config-vlan)# name Sales
+
+! Configure Access Port
+Switch(config)# interface GigabitEthernet0/1
+Switch(config-if)# switchport mode access
+Switch(config-if)# switchport access vlan 10
+
+! Configure Trunk Port
+Switch(config)# interface GigabitEthernet0/24
+Switch(config-if)# switchport mode trunk
+Switch(config-if)# switchport trunk allowed vlan 10,20</pre>
+
+            <h4>Juniper Junos</h4>
+            <pre>
+# Create VLANs
+set vlans Sales vlan-id 10
+
+# Configure Access Port
+set interfaces ge-0/0/1 unit 0 family ethernet-switching vlan members Sales
+
+# Configure Trunk Port
+set interfaces ge-0/0/24 unit 0 family ethernet-switching port-mode trunk
+set interfaces ge-0/0/24 unit 0 family ethernet-switching vlan members [Sales Engineering]</pre>
+
+            <h3>VLAN Limitations</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Limitation</th>
+                        <th>Impact</th>
+                        <th>Modern Solution</th>
+                    </tr>
+                    <tr>
+                        <td>4,094 VLAN limit</td>
+                        <td>Cannot scale for multi-tenant DCs</td>
+                        <td>VXLAN (16M VNIs)</td>
+                    </tr>
+                    <tr>
+                        <td>Spanning Tree required</td>
+                        <td>Blocks redundant links</td>
+                        <td>VXLAN + ECMP</td>
+                    </tr>
+                    <tr>
+                        <td>Layer 2 boundary</td>
+                        <td>VLANs don't cross routers</td>
+                        <td>VXLAN overlay</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="section" id="ch2">
+            <div class="chapter-progress">
+                <span class="chapter-number">2</span>
+                <span>The CAM Table</span>
+            </div>
+            <h2>Chapter 2: How the CAM Table is Built</h2>
+
+            <div class="info-box definition">
+                <strong>Definition:</strong> The CAM (Content Addressable Memory) Table, also known as the MAC Address Table, is a database maintained by switches that maps MAC addresses to physical ports.
+            </div>
+
+            <h3>The Learning Process</h3>
+
+            <div class="animated-diagram">
+                <h4>MAC Address Learning Animation</h4>
+                <div style="text-align: center; padding: 1rem;">
+                    <p>Frame arrives on Port 1 with Source MAC: AA:AA:AA:AA:AA:AA</p>
+                    <div class="packet-flow">
+                        <div class="packet"></div>
+                    </div>
+                    <p>Switch learns: MAC AA:AA -> Port 1</p>
+                </div>
+            </div>
+
+            <h4>Step-by-Step Process</h4>
+            <ol>
+                <li><strong>Frame Reception:</strong> Frame arrives on a switch port</li>
+                <li><strong>Source MAC Learning:</strong> Switch records source MAC + ingress port</li>
+                <li><strong>Destination Lookup:</strong> Switch checks if destination MAC is in table</li>
+                <li><strong>Forward or Flood:</strong> Known = forward to port; Unknown = flood to all ports in VLAN</li>
+                <li><strong>Timer Management:</strong> Entries age out (default 300 seconds)</li>
+            </ol>
+
+            <!-- CAM Table Building Diagram -->
+            <div class="drawio-diagram">
+                <h4>CAM Table Learning Process</h4>
+                <svg viewBox="0 0 850 500" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', Arial, sans-serif;">
+                    <!-- Step 1: Frame Arrives -->
+                    <rect x="30" y="50" width="220" height="35" rx="8" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="140" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Step 1: Frame Arrives</text>
+
+                    <rect x="80" y="100" width="120" height="60" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="140" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Switch</text>
+                    <text x="140" y="145" text-anchor="middle" font-size="10" fill="#666">CAM: Empty</text>
+
+                    <rect x="90" y="190" width="80" height="45" rx="5" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="130" y="210" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">PC-A</text>
+                    <text x="130" y="225" text-anchor="middle" font-size="9" fill="#555">AA:AA</text>
+
+                    <line x1="130" y1="190" x2="130" y2="165" stroke="#82b366" stroke-width="2" marker-end="url(#arrowhead)"/>
+                    <text x="145" y="180" font-size="9" fill="#82b366">Frame</text>
+
+                    <!-- Step 2: Learn Source MAC -->
+                    <rect x="290" y="50" width="220" height="35" rx="8" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="400" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Step 2: Learn Source MAC</text>
+
+                    <rect x="340" y="100" width="120" height="70" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="400" y="120" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Switch</text>
+                    <text x="400" y="138" text-anchor="middle" font-size="10" fill="#333">CAM:</text>
+                    <text x="400" y="155" text-anchor="middle" font-size="10" fill="#82b366" font-weight="bold">AA:AA -> P1</text>
+
+                    <rect x="330" y="190" width="140" height="30" rx="5" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="400" y="210" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Source MAC learned!</text>
+
+                    <!-- Step 3: Destination Unknown -->
+                    <rect x="550" y="50" width="270" height="35" rx="8" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="685" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">Step 3: Destination Unknown = Flood</text>
+
+                    <rect x="620" y="100" width="130" height="65" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="685" y="120" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Switch</text>
+                    <text x="685" y="138" text-anchor="middle" font-size="10" fill="#333">Dest: BB:BB</text>
+                    <text x="685" y="155" text-anchor="middle" font-size="10" fill="#ef4444" font-weight="bold">NOT FOUND</text>
+
+                    <!-- Flood to ports -->
+                    <rect x="565" y="200" width="50" height="35" rx="5" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="590" y="222" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">P2</text>
+
+                    <rect x="660" y="200" width="50" height="35" rx="5" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="685" y="222" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">P3</text>
+
+                    <rect x="755" y="200" width="50" height="35" rx="5" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="780" y="222" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">P4</text>
+
+                    <line x1="660" y1="165" x2="590" y2="195" stroke="#d6b656" stroke-width="2" stroke-dasharray="5,3"/>
+                    <line x1="685" y1="165" x2="685" y2="195" stroke="#d6b656" stroke-width="2" stroke-dasharray="5,3"/>
+                    <line x1="710" y1="165" x2="780" y2="195" stroke="#d6b656" stroke-width="2" stroke-dasharray="5,3"/>
+
+                    <text x="685" y="255" text-anchor="middle" font-size="10" fill="#d6b656" font-style="italic">Flood to all ports in VLAN</text>
+
+                    <!-- Final CAM Table -->
+                    <text x="425" y="300" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Final CAM Table</text>
+
+                    <rect x="220" y="320" width="410" height="30" rx="0" fill="#1a1a2e"/>
+                    <text x="230" y="340" font-size="12" font-weight="bold" fill="#fff">MAC Address         | Port | VLAN | Timer</text>
+
+                    <rect x="220" y="350" width="410" height="28" fill="#f5f5f5" stroke="#666" stroke-width="1"/>
+                    <text x="230" y="368" font-size="11" fill="#333">AA:AA:AA:AA:AA:AA   | P1   | 10   | 300s</text>
+
+                    <rect x="220" y="378" width="410" height="28" fill="#fff" stroke="#666" stroke-width="1"/>
+                    <text x="230" y="396" font-size="11" fill="#333">BB:BB:BB:BB:BB:BB   | P2   | 10   | 295s</text>
+
+                    <rect x="220" y="406" width="410" height="28" fill="#f5f5f5" stroke="#666" stroke-width="1"/>
+                    <text x="230" y="424" font-size="11" fill="#333">CC:CC:CC:CC:CC:CC   | P3   | 20   | 180s</text>
+
+                    <!-- Arrow marker definition -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#82b366"/>
+                        </marker>
+                    </defs>
+                </svg>
+                <p class="diagram-caption">Figure 2.1: CAM table learning process showing frame arrival, MAC learning, and flooding</p>
+            </div>
+
+            <h3>CAM Table Example</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>MAC Address</th>
+                        <th>Port</th>
+                        <th>VLAN</th>
+                        <th>Timer</th>
+                    </tr>
+                    <tr>
+                        <td>AA:AA:AA:AA:AA:AA</td>
+                        <td>Port 1</td>
+                        <td>10</td>
+                        <td>300s</td>
+                    </tr>
+                    <tr>
+                        <td>BB:BB:BB:BB:BB:BB</td>
+                        <td>Port 2</td>
+                        <td>10</td>
+                        <td>245s</td>
+                    </tr>
+                    <tr>
+                        <td>CC:CC:CC:CC:CC:CC</td>
+                        <td>Port 3</td>
+                        <td>20</td>
+                        <td>180s</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Verification Commands</h3>
+            <pre>
+! Cisco
+show mac address-table
+show mac address-table vlan 10
+show mac address-table count
+
+! Juniper
+show ethernet-switching table
+show ethernet-switching table vlan Sales</pre>
+        </section>
+
+        <section class="section" id="ch3">
+            <div class="chapter-progress">
+                <span class="chapter-number">3</span>
+                <span>First Hop Redundancy</span>
+            </div>
+            <h2>Chapter 3: First Hop Redundancy Protocols</h2>
+
+            <div class="info-box definition">
+                <strong>Definition:</strong> First Hop Redundancy Protocols (FHRP) provide default gateway redundancy by allowing multiple routers to share a virtual IP address.
+            </div>
+
+            <h3>FHRP Comparison</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Full Name</th>
+                        <th>Standard</th>
+                        <th>Virtual MAC</th>
+                    </tr>
+                    <tr>
+                        <td><strong>HSRP</strong></td>
+                        <td>Hot Standby Router Protocol</td>
+                        <td>Cisco Proprietary</td>
+                        <td>0000.0c07.acXX</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VRRP</strong></td>
+                        <td>Virtual Router Redundancy Protocol</td>
+                        <td>RFC 5798</td>
+                        <td>0000.5e00.01XX</td>
+                    </tr>
+                    <tr>
+                        <td><strong>GLBP</strong></td>
+                        <td>Gateway Load Balancing Protocol</td>
+                        <td>Cisco Proprietary</td>
+                        <td>0007.b400.XXYY</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="info-box tip">
+                <strong>In VXLAN Fabrics:</strong> Traditional FHRP is replaced by Distributed Anycast Gateway, where all leaves share the same gateway IP and MAC - no failover needed!
+            </div>
+        </section>
+
+        <!-- PART II -->
+        <div class="part-header" id="part2">
+            <h2>Part II: Evolution to VXLAN</h2>
+            <p>From traditional VLANs to modern overlay networks</p>
+        </div>
+
+        <section class="section" id="ch4">
+            <div class="chapter-progress">
+                <span class="chapter-number">4</span>
+                <span>VXLAN Fundamentals</span>
+            </div>
+            <h2>Chapter 4: VXLAN Fundamentals</h2>
+
+            <div class="info-box definition">
+                <strong>Definition:</strong> VXLAN (Virtual Extensible LAN) is an encapsulation protocol that creates virtualized Layer 2 networks over Layer 3 infrastructure, enabling Layer 2 connectivity across Layer 3 boundaries.
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card new">
+                    <h4>✓ When to Use VXLAN</h4>
+                    <ul>
+                        <li>Large-scale environments (>4000 segments)</li>
+                        <li>Multi-datacenter deployments</li>
+                        <li>VM mobility requirements</li>
+                        <li>Cloud and SDN environments</li>
+                        <li>Need for multi-tenancy</li>
+                        <li>Active-Active redundancy requirements</li>
+                    </ul>
+                </div>
+                <div class="comparison-card old">
+                    <h4>✗ When NOT to Use VXLAN</h4>
+                    <ul>
+                        <li>Small networks with &lt;100 segments</li>
+                        <li>Legacy hardware that doesn't support it</li>
+                        <li>Simple flat network requirements</li>
+                        <li>No Layer 3 infrastructure available</li>
+                        <li>MTU constraints that can't be resolved</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Key VXLAN Components</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Component</th>
+                        <th>Description</th>
+                        <th>Role</th>
+                    </tr>
+                    <tr>
+                        <td><strong>VNI</strong></td>
+                        <td>VXLAN Network Identifier</td>
+                        <td>24-bit ID (16 million unique values)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VTEP</strong></td>
+                        <td>VXLAN Tunnel Endpoint</td>
+                        <td>Encapsulates/decapsulates frames</td>
+                    </tr>
+                    <tr>
+                        <td><strong>NVE</strong></td>
+                        <td>Network Virtualization Edge</td>
+                        <td>Logical interface for VXLAN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Underlay</strong></td>
+                        <td>Physical IP network</td>
+                        <td>Transports encapsulated packets</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Overlay</strong></td>
+                        <td>Virtual Layer 2 network</td>
+                        <td>Logical network seen by endpoints</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>VXLAN Encapsulation</h3>
+            <div class="diagram">
+Original Ethernet Frame:
++----------+----------+------+---------+-----+
+| Dst MAC  | Src MAC  | Type | Payload | FCS |
++----------+----------+------+---------+-----+
+
+After VXLAN Encapsulation:
++-------+--------+-----+-------+-------------------------+
+| Outer | Outer  | UDP | VXLAN | Original Ethernet Frame |
+| L2    | IP     |4789 | VNI   |                         |
++-------+--------+-----+-------+-------------------------+
+   |       |             |
+   |       |             +-- 24-bit VNI (16 million segments)
+   |       +-- VTEP IP addresses
+   +-- Next-hop MAC addresses
+            </div>
+
+            <!-- VXLAN Encapsulation Diagram -->
+            <div class="drawio-diagram">
+                <h4>VXLAN Encapsulation Format</h4>
+                <svg viewBox="0 0 850 520" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', Arial, sans-serif;">
+                    <!-- Original Frame Label -->
+                    <text x="50" y="40" font-size="14" font-weight="bold" fill="#333">Original Ethernet Frame:</text>
+
+                    <!-- Original Frame -->
+                    <rect x="50" y="55" width="120" height="45" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="110" y="82" text-anchor="middle" font-size="11" fill="#333">Dst MAC</text>
+
+                    <rect x="170" y="55" width="120" height="45" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="230" y="82" text-anchor="middle" font-size="11" fill="#333">Src MAC</text>
+
+                    <rect x="290" y="55" width="70" height="45" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="325" y="82" text-anchor="middle" font-size="11" fill="#333">Type</text>
+
+                    <rect x="360" y="55" width="180" height="45" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="450" y="82" text-anchor="middle" font-size="11" fill="#333">Payload</text>
+
+                    <rect x="540" y="55" width="70" height="45" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="575" y="82" text-anchor="middle" font-size="11" fill="#333">FCS</text>
+
+                    <!-- Arrow -->
+                    <path d="M 350 120 L 350 160 L 340 160 L 360 180 L 380 160 L 370 160 L 370 120 Z" fill="#6c8ebf"/>
+                    <text x="400" y="155" font-size="12" font-weight="bold" fill="#6c8ebf">VXLAN Encapsulation</text>
+
+                    <!-- VXLAN Encapsulated Label -->
+                    <text x="50" y="220" font-size="14" font-weight="bold" fill="#333">VXLAN Encapsulated Packet:</text>
+
+                    <!-- VXLAN Frame Components -->
+                    <rect x="50" y="240" width="80" height="55" fill="#f8cecc" stroke="#b85450" stroke-width="2"/>
+                    <text x="90" y="262" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">Outer</text>
+                    <text x="90" y="278" text-anchor="middle" font-size="10" fill="#333">L2</text>
+
+                    <rect x="130" y="240" width="80" height="55" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="170" y="262" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">Outer</text>
+                    <text x="170" y="278" text-anchor="middle" font-size="10" fill="#333">IP</text>
+
+                    <rect x="210" y="240" width="65" height="55" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="242" y="262" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">UDP</text>
+                    <text x="242" y="278" text-anchor="middle" font-size="10" fill="#333">4789</text>
+
+                    <rect x="275" y="240" width="85" height="55" fill="#dae8fc" stroke="#6c8ebf" stroke-width="3"/>
+                    <text x="317" y="262" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">VXLAN</text>
+                    <text x="317" y="278" text-anchor="middle" font-size="10" font-weight="bold" fill="#6c8ebf">VNI</text>
+
+                    <rect x="360" y="240" width="280" height="55" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="500" y="272" text-anchor="middle" font-size="12" fill="#333">Original Ethernet Frame</text>
+
+                    <!-- Labels below -->
+                    <line x1="170" y1="300" x2="170" y2="330" stroke="#d6b656" stroke-width="1"/>
+                    <text x="170" y="350" text-anchor="middle" font-size="10" fill="#d6b656">VTEP IPs</text>
+
+                    <line x1="317" y1="300" x2="317" y2="330" stroke="#6c8ebf" stroke-width="1"/>
+                    <text x="317" y="345" text-anchor="middle" font-size="10" fill="#6c8ebf">24-bit VNI</text>
+                    <text x="317" y="360" text-anchor="middle" font-size="9" fill="#6c8ebf">(16M segments)</text>
+
+                    <!-- Comparison Box -->
+                    <rect x="50" y="390" width="520" height="120" rx="5" fill="#1a1a2e"/>
+                    <text x="310" y="415" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">VLAN vs VXLAN Comparison</text>
+
+                    <rect x="50" y="425" width="520" height="25" fill="#333"/>
+                    <text x="70" y="442" font-size="11" font-weight="bold" fill="#fff">Feature            |  VLAN             |  VXLAN</text>
+
+                    <rect x="50" y="450" width="520" height="22" fill="#444"/>
+                    <text x="70" y="465" font-size="11" fill="#fff">Segment ID Size    |  12 bits (4K)     |  24 bits (16M)</text>
+
+                    <rect x="50" y="472" width="520" height="22" fill="#333"/>
+                    <text x="70" y="487" font-size="11" fill="#fff">Transport          |  Layer 2          |  Layer 3 (UDP)</text>
+
+                    <!-- Key Points Box -->
+                    <rect x="600" y="390" width="220" height="120" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="710" y="415" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Key Points</text>
+                    <text x="620" y="440" font-size="10" fill="#333">- UDP Port 4789</text>
+                    <text x="620" y="460" font-size="10" fill="#333">- 50+ byte overhead</text>
+                    <text x="620" y="480" font-size="10" fill="#333">- Requires MTU 9000+</text>
+                    <text x="620" y="500" font-size="10" fill="#333">- Supports 16M segments</text>
+                </svg>
+                <p class="diagram-caption">Figure 4.1: VXLAN encapsulation showing packet header structure and comparison with VLAN</p>
+            </div>
+        </section>
+
+        <section class="section" id="ch5">
+            <div class="chapter-progress">
+                <span class="chapter-number">5</span>
+                <span>VLAN vs VXLAN</span>
+            </div>
+            <h2>Chapter 5: VLAN vs VXLAN Comparison</h2>
+
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Feature</th>
+                        <th>VLAN</th>
+                        <th>VXLAN</th>
+                    </tr>
+                    <tr>
+                        <td>Segment ID Size</td>
+                        <td>12 bits (4,094)</td>
+                        <td>24 bits (16,777,216)</td>
+                    </tr>
+                    <tr>
+                        <td>Transport</td>
+                        <td>Layer 2</td>
+                        <td>Layer 3 (UDP)</td>
+                    </tr>
+                    <tr>
+                        <td>Spanning Tree</td>
+                        <td>Required</td>
+                        <td>Not needed</td>
+                    </tr>
+                    <tr>
+                        <td>Redundancy</td>
+                        <td>Active/Standby (STP)</td>
+                        <td>Active/Active (ECMP)</td>
+                    </tr>
+                    <tr>
+                        <td>Scalability</td>
+                        <td>Limited</td>
+                        <td>Massive</td>
+                    </tr>
+                    <tr>
+                        <td>Control Plane</td>
+                        <td>None (data plane)</td>
+                        <td>BGP EVPN (optional)</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card old">
+                    <h4>VLAN Architecture (3-Tier)</h4>
+                    <ul>
+                        <li>STP blocks 50% of links</li>
+                        <li>Oversubscription at aggregation</li>
+                        <li>Variable latency</li>
+                        <li>Complex scaling</li>
+                    </ul>
+                </div>
+                <div class="comparison-card new">
+                    <h4>VXLAN Architecture (Leaf-Spine)</h4>
+                    <ul>
+                        <li>All links active (ECMP)</li>
+                        <li>Predictable 2-hop latency</li>
+                        <li>Non-blocking</li>
+                        <li>Linear scaling</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- PART III -->
+        <div class="part-header" id="part3">
+            <h2>Part III: VXLAN Fabric Architecture</h2>
+            <p>Understanding Clos, Underlay, and Overlay</p>
+        </div>
+
+        <section class="section" id="ch6">
+            <div class="chapter-progress">
+                <span class="chapter-number">6</span>
+                <span>Clos Architecture</span>
+            </div>
+            <h2>Chapter 6: Clos Architecture</h2>
+
+            <div class="info-box definition">
+                <strong>Definition:</strong> Clos architecture is a multi-stage, non-blocking network topology that provides full-bandwidth connectivity between any two endpoints. Named after Charles Clos (Bell Labs, 1953).
+            </div>
+
+            <div class="animated-diagram">
+                <h4>Leaf-Spine Clos Architecture</h4>
+                <div class="network-animation">
+                    <div class="layer">
+                        <div class="device spine">Spine 1</div>
+                        <div class="device spine">Spine 2</div>
+                        <div class="device spine">Spine 3</div>
+                        <div class="device spine">Spine 4</div>
+                    </div>
+                    <div class="connection-lines">Every leaf connects to every spine (ECMP)</div>
+                    <div class="layer">
+                        <div class="device leaf">Leaf 1<br>VTEP</div>
+                        <div class="device leaf">Leaf 2<br>VTEP</div>
+                        <div class="device leaf">Leaf 3<br>VTEP</div>
+                        <div class="device leaf">Leaf 4<br>VTEP</div>
+                    </div>
+                    <div class="connection-lines">Servers connect to leaves</div>
+                    <div class="layer">
+                        <div class="device server">Servers</div>
+                        <div class="device server">Servers</div>
+                        <div class="device server">Servers</div>
+                        <div class="device server">Servers</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clos Architecture Diagram -->
+            <div class="drawio-diagram">
+                <h4>Leaf-Spine Clos Architecture with Interface Labels</h4>
+                <svg viewBox="0 0 850 550" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', Arial, sans-serif;">
+                    <!-- Layer Labels -->
+                    <text x="40" y="80" font-size="12" font-weight="bold" fill="#2563eb">SPINE LAYER</text>
+                    <text x="40" y="195" font-size="12" font-weight="bold" fill="#10b981">LEAF LAYER (VTEPs)</text>
+                    <text x="40" y="320" font-size="12" font-weight="bold" fill="#8b5cf6">SERVER LAYER</text>
+
+                    <!-- Spine Switches -->
+                    <rect x="140" y="50" width="110" height="55" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="195" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Spine 1</text>
+                    <text x="195" y="92" text-anchor="middle" font-size="10" fill="#666">10.0.0.1</text>
+
+                    <rect x="290" y="50" width="110" height="55" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="345" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Spine 2</text>
+                    <text x="345" y="92" text-anchor="middle" font-size="10" fill="#666">10.0.0.2</text>
+
+                    <rect x="440" y="50" width="110" height="55" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="495" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Spine 3</text>
+                    <text x="495" y="92" text-anchor="middle" font-size="10" fill="#666">10.0.0.3</text>
+
+                    <rect x="590" y="50" width="110" height="55" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="645" y="75" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Spine 4</text>
+                    <text x="645" y="92" text-anchor="middle" font-size="10" fill="#666">10.0.0.4</text>
+
+                    <!-- Leaf Switches -->
+                    <rect x="100" y="170" width="95" height="65" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="147" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 1</text>
+                    <text x="147" y="206" text-anchor="middle" font-size="9" fill="#555">VTEP</text>
+                    <text x="147" y="220" text-anchor="middle" font-size="9" fill="#666">10.0.1.1</text>
+
+                    <rect x="230" y="170" width="95" height="65" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="277" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 2</text>
+                    <text x="277" y="206" text-anchor="middle" font-size="9" fill="#555">VTEP</text>
+                    <text x="277" y="220" text-anchor="middle" font-size="9" fill="#666">10.0.1.2</text>
+
+                    <rect x="360" y="170" width="95" height="65" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="407" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 3</text>
+                    <text x="407" y="206" text-anchor="middle" font-size="9" fill="#555">VTEP</text>
+                    <text x="407" y="220" text-anchor="middle" font-size="9" fill="#666">10.0.1.3</text>
+
+                    <rect x="490" y="170" width="95" height="65" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="537" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 4</text>
+                    <text x="537" y="206" text-anchor="middle" font-size="9" fill="#555">VTEP</text>
+                    <text x="537" y="220" text-anchor="middle" font-size="9" fill="#666">10.0.1.4</text>
+
+                    <rect x="620" y="170" width="95" height="65" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="667" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 5</text>
+                    <text x="667" y="206" text-anchor="middle" font-size="9" fill="#555">VTEP</text>
+                    <text x="667" y="220" text-anchor="middle" font-size="9" fill="#666">10.0.1.5</text>
+
+                    <!-- Servers -->
+                    <rect x="115" y="295" width="65" height="35" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="147" y="318" text-anchor="middle" font-size="10" fill="#333">Servers</text>
+
+                    <rect x="245" y="295" width="65" height="35" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="277" y="318" text-anchor="middle" font-size="10" fill="#333">Servers</text>
+
+                    <rect x="375" y="295" width="65" height="35" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="407" y="318" text-anchor="middle" font-size="10" fill="#333">Servers</text>
+
+                    <rect x="505" y="295" width="65" height="35" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="537" y="318" text-anchor="middle" font-size="10" fill="#333">Servers</text>
+
+                    <rect x="635" y="295" width="65" height="35" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="667" y="318" text-anchor="middle" font-size="10" fill="#333">Servers</text>
+
+                    <!-- Leaf-Spine Connections (sample) -->
+                    <line x1="147" y1="170" x2="195" y2="105" stroke="#666" stroke-width="2"/>
+                    <line x1="147" y1="170" x2="345" y2="105" stroke="#666" stroke-width="1"/>
+                    <line x1="277" y1="170" x2="195" y2="105" stroke="#666" stroke-width="1"/>
+                    <line x1="277" y1="170" x2="345" y2="105" stroke="#666" stroke-width="2"/>
+                    <line x1="407" y1="170" x2="345" y2="105" stroke="#666" stroke-width="1"/>
+                    <line x1="407" y1="170" x2="495" y2="105" stroke="#666" stroke-width="2"/>
+                    <line x1="537" y1="170" x2="495" y2="105" stroke="#666" stroke-width="1"/>
+                    <line x1="537" y1="170" x2="645" y2="105" stroke="#666" stroke-width="2"/>
+                    <line x1="667" y1="170" x2="645" y2="105" stroke="#666" stroke-width="1"/>
+
+                    <!-- Interface Labels -->
+                    <text x="160" y="145" font-size="8" fill="#666">Eth1/49</text>
+                    <text x="220" y="145" font-size="8" fill="#666">Eth1/50</text>
+
+                    <!-- Leaf-Server Connections -->
+                    <line x1="147" y1="235" x2="147" y2="295" stroke="#9673a6" stroke-width="2"/>
+                    <line x1="277" y1="235" x2="277" y2="295" stroke="#9673a6" stroke-width="2"/>
+                    <line x1="407" y1="235" x2="407" y2="295" stroke="#9673a6" stroke-width="2"/>
+                    <line x1="537" y1="235" x2="537" y2="295" stroke="#9673a6" stroke-width="2"/>
+                    <line x1="667" y1="235" x2="667" y2="295" stroke="#9673a6" stroke-width="2"/>
+
+                    <!-- Properties Box -->
+                    <rect x="50" y="365" width="380" height="130" rx="5" fill="#2563eb"/>
+                    <text x="240" y="390" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">Clos Architecture Properties</text>
+
+                    <rect x="50" y="400" width="380" height="24" fill="#fff"/>
+                    <text x="65" y="417" font-size="11" fill="#333">Non-blocking: Full bandwidth between any endpoints</text>
+
+                    <rect x="50" y="424" width="380" height="24" fill="#f0f0f0"/>
+                    <text x="65" y="441" font-size="11" fill="#333">Predictable: Consistent 2-hop latency (Leaf-Spine-Leaf)</text>
+
+                    <rect x="50" y="448" width="380" height="24" fill="#fff"/>
+                    <text x="65" y="465" font-size="11" fill="#333">ECMP: All links active, load balanced</text>
+
+                    <rect x="50" y="472" width="380" height="22" fill="#f0f0f0"/>
+                    <text x="65" y="488" font-size="11" fill="#333">Scalable: Add spines for bandwidth, leaves for ports</text>
+
+                    <!-- Traffic Path Box -->
+                    <rect x="480" y="380" width="320" height="60" rx="8" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="640" y="405" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Traffic Path: Leaf1 -> Any Spine -> Leaf3</text>
+                    <text x="640" y="425" text-anchor="middle" font-size="11" fill="#666">(Always 2 hops with ECMP)</text>
+                </svg>
+                <p class="diagram-caption">Figure 6.1: Clos leaf-spine architecture with VTEPs and interface numbering</p>
+            </div>
+
+            <h3>Clos Properties</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Property</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Non-blocking</strong></td>
+                        <td>Full bandwidth between any endpoints</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Predictable</strong></td>
+                        <td>Consistent 2-hop path (leaf-spine-leaf)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ECMP</strong></td>
+                        <td>Equal-Cost Multi-Path load balancing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scalable</strong></td>
+                        <td>Add spines for bandwidth, leaves for ports</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Clos vs MAC Addresses</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Clos Architecture</th>
+                        <th>MAC Addresses</th>
+                    </tr>
+                    <tr>
+                        <td>Purpose</td>
+                        <td>Network topology design</td>
+                        <td>Device identification</td>
+                    </tr>
+                    <tr>
+                        <td>Layer</td>
+                        <td>Physical + Layer 3</td>
+                        <td>Layer 2</td>
+                    </tr>
+                    <tr>
+                        <td>Function</td>
+                        <td>Traffic path selection</td>
+                        <td>Frame forwarding</td>
+                    </tr>
+                    <tr>
+                        <td>Learning</td>
+                        <td>Static (configured)</td>
+                        <td>Dynamic (CAM table)</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="section" id="ch7-8">
+            <div class="chapter-progress">
+                <span class="chapter-number">7-8</span>
+                <span>Underlay vs Overlay</span>
+            </div>
+            <h2>Chapter 7-8: Underlay and Overlay Networks</h2>
+
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Underlay</th>
+                        <th>Overlay</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Definition</strong></td>
+                        <td>Physical IP infrastructure</td>
+                        <td>Virtual network on top</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Layer</strong></td>
+                        <td>Layer 3 (IP)</td>
+                        <td>Layer 2 (logical)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Protocol</strong></td>
+                        <td>OSPF, IS-IS, BGP</td>
+                        <td>VXLAN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Addressing</strong></td>
+                        <td>VTEP IP addresses</td>
+                        <td>Endpoint MAC addresses</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Purpose</strong></td>
+                        <td>Transport VXLAN packets</td>
+                        <td>Provide tenant connectivity</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="diagram">
++------------------------------------------------------------------+
+|                         OVERLAY NETWORK                           |
+|                    (Virtual Layer 2 - VNI 10000)                  |
+|   [VM-A]  ----------------------------------------  [VM-B]        |
++------------------------------------------------------------------+
+                              |
+                    VXLAN Encapsulation
+                              |
++------------------------------------------------------------------+
+|                        UNDERLAY NETWORK                           |
+|                    (Physical Layer 3 - IP)                        |
+|   VTEP-1          Spine 1       Spine 2           VTEP-2         |
+|   10.0.1.1 -----> 10.0.0.1 <--> 10.0.0.2 <----- 10.0.1.2         |
++------------------------------------------------------------------+
+            </div>
+
+            <!-- Underlay vs Overlay Diagram -->
+            <div class="drawio-diagram">
+                <h4>Underlay vs Overlay Networks</h4>
+                <svg viewBox="0 0 850 550" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', Arial, sans-serif;">
+                    <!-- Overlay Box -->
+                    <rect x="40" y="40" width="770" height="110" rx="10" fill="#d5e8d4" fill-opacity="0.3" stroke="#82b366" stroke-width="3"/>
+                    <text x="425" y="65" text-anchor="middle" font-size="14" font-weight="bold" fill="#82b366">OVERLAY NETWORK (Virtual Layer 2 - VNI 10000)</text>
+
+                    <!-- VMs in Overlay -->
+                    <rect x="80" y="85" width="100" height="50" rx="5" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="130" y="105" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">VM-A</text>
+                    <text x="130" y="120" text-anchor="middle" font-size="10" fill="#555">VLAN 100</text>
+
+                    <rect x="670" y="85" width="100" height="50" rx="5" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="720" y="105" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">VM-B</text>
+                    <text x="720" y="120" text-anchor="middle" font-size="10" fill="#555">VLAN 100</text>
+
+                    <!-- Logical L2 Connection -->
+                    <line x1="185" y1="110" x2="665" y2="110" stroke="#82b366" stroke-width="2" stroke-dasharray="8,4"/>
+                    <text x="425" y="100" text-anchor="middle" font-size="10" fill="#82b366" font-style="italic">Logical L2 Connection</text>
+
+                    <!-- VXLAN Encapsulation Arrow -->
+                    <path d="M 425 165 L 425 205 L 415 205 L 425 220 L 435 205 L 425 205" fill="#9673a6" stroke="#9673a6" stroke-width="1"/>
+                    <text x="500" y="195" font-size="11" font-weight="bold" fill="#9673a6">VXLAN Encapsulation</text>
+                    <path d="M 425 220 L 425 180 L 435 180 L 425 165 L 415 180 L 425 180" fill="none" stroke="#9673a6" stroke-width="2"/>
+
+                    <!-- Underlay Box -->
+                    <rect x="40" y="230" width="770" height="160" rx="10" fill="#dae8fc" fill-opacity="0.3" stroke="#6c8ebf" stroke-width="3"/>
+                    <text x="425" y="255" text-anchor="middle" font-size="14" font-weight="bold" fill="#6c8ebf">UNDERLAY NETWORK (Physical Layer 3 - IP)</text>
+
+                    <!-- Underlay Devices -->
+                    <rect x="80" y="280" width="100" height="55" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="130" y="302" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">VTEP-1</text>
+                    <text x="130" y="320" text-anchor="middle" font-size="10" fill="#666">10.0.1.1</text>
+
+                    <rect x="280" y="280" width="100" height="55" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="330" y="302" text-anchor="middle" font-size="11" fill="#333">Spine 1</text>
+                    <text x="330" y="320" text-anchor="middle" font-size="10" fill="#666">10.0.0.1</text>
+
+                    <rect x="470" y="280" width="100" height="55" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="520" y="302" text-anchor="middle" font-size="11" fill="#333">Spine 2</text>
+                    <text x="520" y="320" text-anchor="middle" font-size="10" fill="#666">10.0.0.2</text>
+
+                    <rect x="670" y="280" width="100" height="55" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="2"/>
+                    <text x="720" y="302" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">VTEP-2</text>
+                    <text x="720" y="320" text-anchor="middle" font-size="10" fill="#666">10.0.1.2</text>
+
+                    <!-- Underlay Connections -->
+                    <line x1="180" y1="307" x2="280" y2="307" stroke="#6c8ebf" stroke-width="2"/>
+                    <line x1="180" y1="307" x2="470" y2="307" stroke="#6c8ebf" stroke-width="1" stroke-dasharray="4,2"/>
+                    <line x1="380" y1="307" x2="470" y2="307" stroke="#6c8ebf" stroke-width="2"/>
+                    <line x1="570" y1="307" x2="670" y2="307" stroke="#6c8ebf" stroke-width="2"/>
+
+                    <!-- Comparison Table -->
+                    <rect x="180" y="420" width="490" height="120" rx="5" fill="#1a1a2e"/>
+                    <text x="425" y="445" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">Comparison</text>
+
+                    <rect x="180" y="455" width="490" height="25" fill="#333"/>
+                    <text x="200" y="473" font-size="11" font-weight="bold" fill="#fff">Aspect          |  Underlay          |  Overlay</text>
+
+                    <rect x="180" y="480" width="490" height="22" fill="#444"/>
+                    <text x="200" y="495" font-size="10" fill="#fff">Layer           |  Layer 3 (IP)      |  Layer 2 (logical)</text>
+
+                    <rect x="180" y="502" width="490" height="22" fill="#333"/>
+                    <text x="200" y="517" font-size="10" fill="#fff">Protocol        |  OSPF/BGP/IS-IS    |  VXLAN</text>
+
+                    <rect x="180" y="524" width="490" height="15" fill="#444"/>
+                    <text x="200" y="535" font-size="10" fill="#fff">Purpose         |  Transport         |  Tenant connectivity</text>
+                </svg>
+                <p class="diagram-caption">Figure 7.1: Relationship between underlay physical network and overlay virtual network</p>
+            </div>
+        </section>
+
+        <!-- PART IV -->
+        <div class="part-header" id="part4">
+            <h2>Part IV: Control Plane - BGP EVPN</h2>
+            <p>The brain of the VXLAN fabric</p>
+        </div>
+
+        <section class="section" id="ch9-10">
+            <div class="chapter-progress">
+                <span class="chapter-number">9-10</span>
+                <span>BGP EVPN</span>
+            </div>
+            <h2>Chapter 9-10: BGP EVPN and Route Types</h2>
+
+            <div class="info-box definition">
+                <strong>Definition:</strong> BGP EVPN (Ethernet VPN) is a control plane protocol that distributes MAC and IP reachability information across the VXLAN fabric, eliminating the need for flood-and-learn.
+            </div>
+
+            <h3>EVPN Route Types</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Type</th>
+                        <th>Name</th>
+                        <th>Purpose</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Type-1</strong></td>
+                        <td>Ethernet Auto-Discovery</td>
+                        <td>Multi-homing, fast convergence</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type-2</strong></td>
+                        <td>MAC/IP Advertisement</td>
+                        <td>MAC and IP reachability (most used)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type-3</strong></td>
+                        <td>Inclusive Multicast</td>
+                        <td>BUM traffic handling</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type-4</strong></td>
+                        <td>Ethernet Segment</td>
+                        <td>Designated Forwarder election</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type-5</strong></td>
+                        <td>IP Prefix</td>
+                        <td>External IP routing</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>BGP EVPN Configuration (Cisco NX-OS)</h3>
+            <pre>
+! Enable BGP EVPN
+nv overlay evpn
+
+router bgp 65000
+  router-id 10.0.1.1
+  neighbor 10.0.0.1 remote-as 65000
+    update-source loopback0
+    address-family l2vpn evpn
+      send-community extended
+
+evpn
+  vni 10000 l2
+    rd auto
+    route-target import auto
+    route-target export auto</pre>
+
+            <!-- BGP EVPN Diagram -->
+            <div class="drawio-diagram">
+                <h4>BGP EVPN Control Plane</h4>
+                <svg viewBox="0 0 850 580" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', Arial, sans-serif;">
+                    <!-- Route Reflector -->
+                    <rect x="340" y="40" width="170" height="55" rx="8" fill="#f8cecc" stroke="#b85450" stroke-width="3"/>
+                    <text x="425" y="65" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">Route Reflector</text>
+                    <text x="425" y="82" text-anchor="middle" font-size="10" fill="#666">(Spine / RR)</text>
+
+                    <!-- Leaves -->
+                    <rect x="120" y="160" width="120" height="70" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="180" y="182" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 1</text>
+                    <text x="180" y="197" text-anchor="middle" font-size="10" fill="#555">VTEP</text>
+                    <text x="180" y="215" text-anchor="middle" font-size="10" fill="#666">10.0.1.1</text>
+
+                    <rect x="365" y="160" width="120" height="70" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="425" y="182" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 2</text>
+                    <text x="425" y="197" text-anchor="middle" font-size="10" fill="#555">VTEP</text>
+                    <text x="425" y="215" text-anchor="middle" font-size="10" fill="#666">10.0.1.2</text>
+
+                    <rect x="610" y="160" width="120" height="70" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="670" y="182" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 3</text>
+                    <text x="670" y="197" text-anchor="middle" font-size="10" fill="#555">VTEP</text>
+                    <text x="670" y="215" text-anchor="middle" font-size="10" fill="#666">10.0.1.3</text>
+
+                    <!-- iBGP EVPN Connections -->
+                    <line x1="180" y1="160" x2="380" y2="95" stroke="#b85450" stroke-width="2" stroke-dasharray="6,3"/>
+                    <line x1="425" y1="160" x2="425" y2="95" stroke="#b85450" stroke-width="2" stroke-dasharray="6,3"/>
+                    <line x1="670" y1="160" x2="470" y2="95" stroke="#b85450" stroke-width="2" stroke-dasharray="6,3"/>
+
+                    <text x="250" y="125" font-size="10" font-weight="bold" fill="#b85450">iBGP EVPN</text>
+
+                    <!-- Hosts -->
+                    <rect x="135" y="280" width="90" height="55" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="180" y="300" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">Host A</text>
+                    <text x="180" y="315" text-anchor="middle" font-size="9" fill="#555">MAC-A</text>
+                    <text x="180" y="328" text-anchor="middle" font-size="9" fill="#666">10.100.1.10</text>
+
+                    <rect x="380" y="280" width="90" height="55" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="425" y="300" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">Host B</text>
+                    <text x="425" y="315" text-anchor="middle" font-size="9" fill="#555">MAC-B</text>
+                    <text x="425" y="328" text-anchor="middle" font-size="9" fill="#666">10.100.1.20</text>
+
+                    <rect x="625" y="280" width="90" height="55" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="670" y="300" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">Host C</text>
+                    <text x="670" y="315" text-anchor="middle" font-size="9" fill="#555">MAC-C</text>
+                    <text x="670" y="328" text-anchor="middle" font-size="9" fill="#666">10.100.2.10</text>
+
+                    <!-- Host-Leaf Connections with Interface Labels -->
+                    <line x1="180" y1="280" x2="180" y2="230" stroke="#9673a6" stroke-width="2"/>
+                    <text x="190" y="258" font-size="8" font-weight="bold" fill="#9673a6">Eth1/1</text>
+
+                    <line x1="425" y1="280" x2="425" y2="230" stroke="#9673a6" stroke-width="2"/>
+                    <text x="435" y="258" font-size="8" font-weight="bold" fill="#9673a6">Eth1/1</text>
+
+                    <line x1="670" y1="280" x2="670" y2="230" stroke="#9673a6" stroke-width="2"/>
+                    <text x="680" y="258" font-size="8" font-weight="bold" fill="#9673a6">Eth1/1</text>
+
+                    <!-- Route Types Table -->
+                    <rect x="40" y="370" width="420" height="175" rx="5" fill="#2563eb"/>
+                    <text x="250" y="395" text-anchor="middle" font-size="14" font-weight="bold" fill="#fff">EVPN Route Types</text>
+
+                    <rect x="40" y="405" width="420" height="25" fill="#333"/>
+                    <text x="55" y="422" font-size="11" font-weight="bold" fill="#fff">Type  |  Name                    |  Purpose</text>
+
+                    <rect x="40" y="430" width="420" height="23" fill="#444"/>
+                    <text x="55" y="446" font-size="10" fill="#fff">Type-1 |  Ethernet Auto-Discovery  |  Multi-homing</text>
+
+                    <rect x="40" y="453" width="420" height="23" fill="#333"/>
+                    <text x="55" y="469" font-size="10" fill="#10b981" font-weight="bold">Type-2 |  MAC/IP Advertisement     |  MAC reachability</text>
+
+                    <rect x="40" y="476" width="420" height="23" fill="#444"/>
+                    <text x="55" y="492" font-size="10" fill="#fff">Type-3 |  Inclusive Multicast      |  BUM handling</text>
+
+                    <rect x="40" y="499" width="420" height="23" fill="#333"/>
+                    <text x="55" y="515" font-size="10" fill="#fff">Type-5 |  IP Prefix                |  External routing</text>
+
+                    <!-- Learning Process Box -->
+                    <rect x="500" y="370" width="310" height="145" rx="8" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="655" y="395" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">MAC Learning via EVPN:</text>
+                    <text x="520" y="420" font-size="10" fill="#333">1. Host A connects to Leaf 1</text>
+                    <text x="520" y="440" font-size="10" fill="#333">2. Leaf 1 learns MAC-A locally</text>
+                    <text x="520" y="460" font-size="10" fill="#333">3. Leaf 1 sends Type-2 route via BGP</text>
+                    <text x="520" y="480" font-size="10" fill="#333">4. All leaves learn: MAC-A -> VTEP 10.0.1.1</text>
+                    <text x="520" y="500" font-size="10" font-weight="bold" fill="#10b981">5. No flooding required!</text>
+                </svg>
+                <p class="diagram-caption">Figure 9.1: BGP EVPN control plane with route reflector and route type distribution</p>
+            </div>
+        </section>
+
+        <!-- PART V -->
+        <div class="part-header" id="part5">
+            <h2>Part V: Traffic Flow in VXLAN</h2>
+            <p>Understanding how packets traverse the fabric</p>
+        </div>
+
+        <section class="section" id="ch11-13">
+            <div class="chapter-progress">
+                <span class="chapter-number">11-13</span>
+                <span>Traffic Flow</span>
+            </div>
+            <h2>Chapter 11-13: Intra-VXLAN, Inter-VXLAN, and BUM Traffic</h2>
+
+            <h3>Traffic Types in VXLAN</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Traffic Type</th>
+                        <th>Description</th>
+                        <th>VNI Used</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Intra-VXLAN (Same VNI)</strong></td>
+                        <td>Hosts in same subnet</td>
+                        <td>L2VNI (e.g., 10000)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Inter-VXLAN (Different VNI)</strong></td>
+                        <td>Hosts in different subnets</td>
+                        <td>L3VNI (e.g., 50000)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BUM Traffic</strong></td>
+                        <td>Broadcast, Unknown unicast, Multicast</td>
+                        <td>L2VNI with replication</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>BUM Handling Methods</h3>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h4>Multicast Underlay</h4>
+                    <p>Map VNIs to multicast groups. Requires PIM in underlay.</p>
+                    <ul>
+                        <li>Efficient delivery</li>
+                        <li>Requires multicast infrastructure</li>
+                    </ul>
+                </div>
+                <div class="comparison-card">
+                    <h4>Ingress Replication</h4>
+                    <p>Source VTEP sends unicast copy to each remote VTEP.</p>
+                    <ul>
+                        <li>No multicast needed</li>
+                        <li>More CPU at source</li>
+                    </ul>
+                </div>
+                <div class="comparison-card new">
+                    <h4>BGP EVPN (Recommended)</h4>
+                    <p>EVPN Type-3 routes advertise VTEP membership.</p>
+                    <ul>
+                        <li>Scalable and dynamic</li>
+                        <li>Most common today</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- VXLAN Traffic Flow Diagram -->
+            <div class="drawio-diagram">
+                <h4>VXLAN Traffic Flow (Same VNI)</h4>
+                <svg viewBox="0 0 850 560" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', Arial, sans-serif;">
+                    <!-- Server A -->
+                    <rect x="40" y="50" width="110" height="65" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="95" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Server A</text>
+                    <text x="95" y="88" text-anchor="middle" font-size="10" fill="#555">10.100.1.10</text>
+                    <text x="95" y="103" text-anchor="middle" font-size="9" fill="#666">VLAN 100</text>
+
+                    <!-- Leaf 1 -->
+                    <rect x="40" y="170" width="110" height="70" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="95" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 1 (VTEP-1)</text>
+                    <text x="95" y="208" text-anchor="middle" font-size="10" fill="#555">10.0.1.1</text>
+                    <text x="95" y="225" text-anchor="middle" font-size="9" fill="#82b366" font-weight="bold">Encapsulate</text>
+
+                    <!-- Spine Layer -->
+                    <rect x="300" y="170" width="250" height="70" rx="8" fill="#dae8fc" stroke="#6c8ebf" stroke-width="3"/>
+                    <text x="425" y="200" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Spine Layer</text>
+                    <text x="425" y="220" text-anchor="middle" font-size="11" fill="#6c8ebf">(ECMP)</text>
+
+                    <!-- Leaf 2 -->
+                    <rect x="700" y="170" width="110" height="70" rx="8" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="755" y="192" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Leaf 2 (VTEP-2)</text>
+                    <text x="755" y="208" text-anchor="middle" font-size="10" fill="#555">10.0.1.2</text>
+                    <text x="755" y="225" text-anchor="middle" font-size="9" fill="#82b366" font-weight="bold">Decapsulate</text>
+
+                    <!-- Server B -->
+                    <rect x="700" y="50" width="110" height="65" rx="5" fill="#e1d5e7" stroke="#9673a6" stroke-width="2"/>
+                    <text x="755" y="72" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Server B</text>
+                    <text x="755" y="88" text-anchor="middle" font-size="10" fill="#555">10.100.1.20</text>
+                    <text x="755" y="103" text-anchor="middle" font-size="9" fill="#666">VLAN 100</text>
+
+                    <!-- Interface Labels -->
+                    <text x="55" y="132" font-size="8" font-weight="bold" fill="#9673a6">eth0</text>
+                    <text x="110" y="132" font-size="8" font-weight="bold" fill="#82b366">Eth1/1</text>
+                    <text x="160" y="205" font-size="8" font-weight="bold" fill="#82b366">Eth1/49-50</text>
+                    <text x="310" y="252" font-size="8" font-weight="bold" fill="#6c8ebf">Eth1/1-48</text>
+                    <text x="480" y="252" font-size="8" font-weight="bold" fill="#6c8ebf">Eth1/1-48</text>
+                    <text x="630" y="205" font-size="8" font-weight="bold" fill="#82b366">Eth1/49-50</text>
+                    <text x="710" y="132" font-size="8" font-weight="bold" fill="#82b366">Eth1/1</text>
+                    <text x="765" y="132" font-size="8" font-weight="bold" fill="#9673a6">eth0</text>
+
+                    <!-- Step 1: Server A to Leaf 1 -->
+                    <line x1="95" y1="120" x2="95" y2="165" stroke="#9673a6" stroke-width="3" marker-end="url(#arr1)"/>
+                    <rect x="40" y="138" width="55" height="18" rx="3" fill="#9673a6"/>
+                    <text x="67" y="150" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">Step 1</text>
+                    <text x="55" y="175" font-size="8" fill="#9673a6" font-style="italic">Original L2</text>
+
+                    <!-- Step 2: Leaf 1 to Spine -->
+                    <line x1="155" y1="205" x2="295" y2="205" stroke="#82b366" stroke-width="4" marker-end="url(#arr2)"/>
+                    <rect x="200" y="185" width="55" height="18" rx="3" fill="#82b366"/>
+                    <text x="227" y="197" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">Step 2</text>
+                    <text x="225" y="218" font-size="8" fill="#82b366" font-weight="bold">VNI 10000</text>
+
+                    <!-- Step 3: Spine to Leaf 2 -->
+                    <line x1="555" y1="205" x2="695" y2="205" stroke="#6c8ebf" stroke-width="4" marker-end="url(#arr3)"/>
+                    <rect x="600" y="185" width="55" height="18" rx="3" fill="#6c8ebf"/>
+                    <text x="627" y="197" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">Step 3</text>
+                    <text x="625" y="218" font-size="8" fill="#6c8ebf" font-style="italic">IP Routed</text>
+
+                    <!-- Step 4: Leaf 2 to Server B -->
+                    <line x1="755" y1="165" x2="755" y2="120" stroke="#9673a6" stroke-width="3" marker-end="url(#arr4)"/>
+                    <rect x="760" y="138" width="55" height="18" rx="3" fill="#9673a6"/>
+                    <text x="787" y="150" text-anchor="middle" font-size="9" fill="#fff" font-weight="bold">Step 4</text>
+                    <text x="780" y="132" font-size="8" fill="#9673a6" font-style="italic">Decapsulated</text>
+
+                    <!-- Packet Details Box -->
+                    <rect x="270" y="290" width="310" height="110" rx="8" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="425" y="315" text-anchor="middle" font-size="12" font-weight="bold" fill="#333">VXLAN Packet Details:</text>
+                    <text x="290" y="340" font-size="10" fill="#333">- Outer Src IP: 10.0.1.1 (VTEP-1)</text>
+                    <text x="290" y="358" font-size="10" fill="#333">- Outer Dst IP: 10.0.1.2 (VTEP-2)</text>
+                    <text x="290" y="376" font-size="10" fill="#333">- UDP Port: 4789</text>
+                    <text x="290" y="394" font-size="10" font-weight="bold" fill="#6c8ebf">- VNI: 10000</text>
+
+                    <!-- BUM Traffic Section -->
+                    <text x="50" y="440" font-size="14" font-weight="bold" fill="#333">BUM Traffic Handling:</text>
+
+                    <rect x="50" y="460" width="170" height="70" rx="5" fill="#f5f5f5" stroke="#666" stroke-width="1"/>
+                    <text x="135" y="482" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">Multicast</text>
+                    <text x="135" y="498" text-anchor="middle" font-size="9" fill="#555">VNI -> mcast group</text>
+                    <text x="135" y="512" text-anchor="middle" font-size="9" fill="#555">Efficient delivery</text>
+
+                    <rect x="240" y="460" width="170" height="70" rx="5" fill="#f5f5f5" stroke="#666" stroke-width="1"/>
+                    <text x="325" y="482" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">Ingress Replication</text>
+                    <text x="325" y="498" text-anchor="middle" font-size="9" fill="#555">Unicast to each VTEP</text>
+                    <text x="325" y="512" text-anchor="middle" font-size="9" fill="#555">No mcast needed</text>
+
+                    <rect x="430" y="460" width="170" height="70" rx="5" fill="#d5e8d4" stroke="#82b366" stroke-width="2"/>
+                    <text x="515" y="478" text-anchor="middle" font-size="10" font-weight="bold" fill="#333">BGP EVPN</text>
+                    <text x="515" y="492" text-anchor="middle" font-size="9" font-weight="bold" fill="#82b366">(Recommended)</text>
+                    <text x="515" y="508" text-anchor="middle" font-size="9" fill="#333">Type-3 routes</text>
+                    <text x="515" y="522" text-anchor="middle" font-size="9" fill="#333">Scalable, dynamic</text>
+
+                    <!-- Arrow definitions -->
+                    <defs>
+                        <marker id="arr1" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#9673a6"/>
+                        </marker>
+                        <marker id="arr2" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#82b366"/>
+                        </marker>
+                        <marker id="arr3" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#6c8ebf"/>
+                        </marker>
+                        <marker id="arr4" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#9673a6"/>
+                        </marker>
+                    </defs>
+                </svg>
+                <p class="diagram-caption">Figure 11.1: VXLAN traffic flow showing encapsulation, routing through spines, and decapsulation</p>
+            </div>
+        </section>
+
+        <!-- PART VI -->
+        <div class="part-header" id="part6">
+            <h2>Part VI: Multicast in VXLAN</h2>
+            <p>Multicast group strategies and considerations</p>
+        </div>
+
+        <section class="section" id="ch14-15">
+            <div class="chapter-progress">
+                <span class="chapter-number">14-15</span>
+                <span>Multicast Groups</span>
+            </div>
+            <h2>Chapter 14-15: Multicast Groups and VNIs</h2>
+
+            <h3>Multicast Group Assignment Strategies</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Strategy</th>
+                        <th>Description</th>
+                        <th>When to Use</th>
+                    </tr>
+                    <tr>
+                        <td><strong>One Group per VNI</strong></td>
+                        <td>VNI 10000 -> 239.1.1.1<br>VNI 10001 -> 239.1.1.2</td>
+                        <td>Small deployments (&lt;100 VNIs)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Shared Groups</strong></td>
+                        <td>VNI 10000-10099 -> 239.1.1.1<br>VNI 10100-10199 -> 239.1.1.2</td>
+                        <td>Large deployments (100+ VNIs)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ingress Replication</strong></td>
+                        <td>No multicast groups</td>
+                        <td>No multicast in underlay / BGP EVPN</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="info-box tip">
+                <strong>Best Practice:</strong> With BGP EVPN, use Ingress Replication. It's scalable, doesn't require multicast infrastructure, and dynamically learns VTEP membership.
+            </div>
+        </section>
+
+        <!-- PART VII -->
+        <div class="part-header" id="part7">
+            <h2>Part VII: Vendor Implementations</h2>
+            <p>Cisco DNA vs Juniper Campus Fabric</p>
+        </div>
+
+        <section class="section" id="ch16-17">
+            <div class="chapter-progress">
+                <span class="chapter-number">16-17</span>
+                <span>Vendor Comparison</span>
+            </div>
+            <h2>Chapter 16-17: Cisco DNA and Juniper Campus Fabric</h2>
+
+            <h3>Comparison Table</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Cisco SD-Access</th>
+                        <th>Juniper Campus Fabric</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Control Plane</strong></td>
+                        <td>LISP</td>
+                        <td>BGP EVPN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Plane</strong></td>
+                        <td>VXLAN-GPO</td>
+                        <td>VXLAN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Management</strong></td>
+                        <td>DNA Center (mandatory)</td>
+                        <td>Mist Cloud / Junos Space</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Underlay</strong></td>
+                        <td>IS-IS (auto)</td>
+                        <td>eBGP or OSPF</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Segmentation</strong></td>
+                        <td>SGT (TrustSec)</td>
+                        <td>Micro-segmentation</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hardware</strong></td>
+                        <td>Catalyst 9000</td>
+                        <td>QFX/EX Series</td>
+                    </tr>
+                </table>
+            </div>
+
+            <h3>Cisco DNA Center Communication</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>API/Protocol</th>
+                        <th>Use Case</th>
+                    </tr>
+                    <tr>
+                        <td>REST APIs</td>
+                        <td>Automation, integration, provisioning</td>
+                    </tr>
+                    <tr>
+                        <td>NETCONF/YANG</td>
+                        <td>Configuration management</td>
+                    </tr>
+                    <tr>
+                        <td>SSH/CLI</td>
+                        <td>Device access</td>
+                    </tr>
+                    <tr>
+                        <td>SNMP</td>
+                        <td>Monitoring, polling</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Vendor Comparison Diagram -->
+            <div class="drawio-diagram">
+                <h4>Cisco SD-Access vs Juniper Campus Fabric</h4>
+                <svg viewBox="0 0 850 520" xmlns="http://www.w3.org/2000/svg" style="font-family: 'Segoe UI', Arial, sans-serif;">
+                    <!-- Cisco Box -->
+                    <rect x="40" y="50" width="370" height="280" rx="10" fill="#dae8fc" stroke="#6c8ebf" stroke-width="3"/>
+
+                    <rect x="115" y="65" width="220" height="35" rx="8" fill="#6c8ebf"/>
+                    <text x="225" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">Cisco SD-Access</text>
+
+                    <text x="70" y="130" font-size="12" fill="#333"><tspan font-weight="bold">Control Plane:</tspan> LISP</text>
+                    <text x="70" y="155" font-size="12" fill="#333"><tspan font-weight="bold">Data Plane:</tspan> VXLAN-GPO</text>
+                    <text x="70" y="180" font-size="12" fill="#333"><tspan font-weight="bold">Management:</tspan> DNA Center (required)</text>
+                    <text x="70" y="205" font-size="12" fill="#333"><tspan font-weight="bold">Underlay:</tspan> IS-IS (auto-provisioned)</text>
+                    <text x="70" y="230" font-size="12" fill="#333"><tspan font-weight="bold">Segmentation:</tspan> SGT / TrustSec</text>
+                    <text x="70" y="255" font-size="12" fill="#333"><tspan font-weight="bold">Hardware:</tspan> Catalyst 9000 series</text>
+
+                    <!-- Cisco Logo Placeholder -->
+                    <rect x="300" y="280" width="80" height="30" rx="5" fill="#6c8ebf"/>
+                    <text x="340" y="300" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">CISCO</text>
+
+                    <!-- Juniper Box -->
+                    <rect x="440" y="50" width="370" height="280" rx="10" fill="#d5e8d4" stroke="#82b366" stroke-width="3"/>
+
+                    <rect x="500" y="65" width="250" height="35" rx="8" fill="#82b366"/>
+                    <text x="625" y="88" text-anchor="middle" font-size="15" font-weight="bold" fill="#fff">Juniper Campus Fabric</text>
+
+                    <text x="470" y="130" font-size="12" fill="#333"><tspan font-weight="bold">Control Plane:</tspan> BGP EVPN</text>
+                    <text x="470" y="155" font-size="12" fill="#333"><tspan font-weight="bold">Data Plane:</tspan> VXLAN</text>
+                    <text x="470" y="180" font-size="12" fill="#333"><tspan font-weight="bold">Management:</tspan> Mist Cloud / Junos Space</text>
+                    <text x="470" y="205" font-size="12" fill="#333"><tspan font-weight="bold">Underlay:</tspan> eBGP or OSPF</text>
+                    <text x="470" y="230" font-size="12" fill="#333"><tspan font-weight="bold">Segmentation:</tspan> Micro-segmentation</text>
+                    <text x="470" y="255" font-size="12" fill="#333"><tspan font-weight="bold">Hardware:</tspan> QFX/EX Series</text>
+
+                    <!-- Juniper Logo Placeholder -->
+                    <rect x="720" y="280" width="80" height="30" rx="5" fill="#82b366"/>
+                    <text x="760" y="300" text-anchor="middle" font-size="10" font-weight="bold" fill="#fff">JUNIPER</text>
+
+                    <!-- Key Differences Section -->
+                    <text x="425" y="370" text-anchor="middle" font-size="16" font-weight="bold" fill="#333">Key Differences</text>
+
+                    <rect x="130" y="390" width="590" height="35" rx="5" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="425" y="412" text-anchor="middle" font-size="12" fill="#333">LISP vs EVPN: Different control plane philosophies</text>
+
+                    <rect x="130" y="430" width="590" height="35" rx="5" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="425" y="452" text-anchor="middle" font-size="12" fill="#333">DNA Center is mandatory for Cisco; Juniper is more flexible</text>
+
+                    <rect x="130" y="470" width="590" height="35" rx="5" fill="#fff2cc" stroke="#d6b656" stroke-width="2"/>
+                    <text x="425" y="492" text-anchor="middle" font-size="12" fill="#333">Cisco is more prescriptive; Juniper is more modular</text>
+                </svg>
+                <p class="diagram-caption">Figure 16.1: Side-by-side comparison of Cisco SD-Access and Juniper Campus Fabric architectures</p>
+            </div>
+        </section>
+
+        <!-- PART VIII -->
+        <div class="part-header" id="part8">
+            <h2>Part VIII: External Connectivity</h2>
+            <p>Fusion routers and traffic leaving the fabric</p>
+        </div>
+
+        <section class="section" id="ch18-19">
+            <div class="chapter-progress">
+                <span class="chapter-number">18-19</span>
+                <span>External Traffic</span>
+            </div>
+            <h2>Chapter 18-19: Fusion Router and External Traffic</h2>
+
+            <h3>VNI Extension Options</h3>
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h4>Option 1: VXLAN to Fusion</h4>
+                    <p>Fusion router acts as VTEP and participates in BGP EVPN.</p>
+                    <ul>
+                        <li>Full VXLAN integration</li>
+                        <li>Seamless routing</li>
+                    </ul>
+                </div>
+                <div class="comparison-card">
+                    <h4>Option 2: VLAN Handoff</h4>
+                    <p>Border leaf terminates VXLAN and trunks VLANs to fusion.</p>
+                    <ul>
+                        <li>Legacy compatibility</li>
+                        <li>Simpler fusion router</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Automation Capabilities</h3>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Task</th>
+                        <th>Can Automate?</th>
+                        <th>Method</th>
+                    </tr>
+                    <tr>
+                        <td>VNI Creation</td>
+                        <td style="color: green;">Yes</td>
+                        <td>DNA Center / Ansible</td>
+                    </tr>
+                    <tr>
+                        <td>VNI-to-VLAN Mapping</td>
+                        <td style="color: green;">Yes</td>
+                        <td>Templates</td>
+                    </tr>
+                    <tr>
+                        <td>BGP EVPN Peering</td>
+                        <td style="color: orange;">Partial</td>
+                        <td>ZTP + Templates</td>
+                    </tr>
+                    <tr>
+                        <td>External Routing</td>
+                        <td style="color: red;">Manual</td>
+                        <td>Security review needed</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <!-- PART IX -->
+        <div class="part-header" id="part9">
+            <h2>Part IX: Hands-On Labs</h2>
+            <p>Practice configurations for Cisco and Juniper</p>
+        </div>
+
+        <section class="section lab-section" id="labs">
+            <h2>Lab Exercises</h2>
+
+            <div class="lab-step">
+                <h4>Lab 1: Basic VXLAN Configuration (Cisco)</h4>
+                <p><strong>Objective:</strong> Configure basic VXLAN with multicast BUM handling</p>
+                <pre>
+! Enable features
+feature nv overlay
+feature vn-segment-vlan-based
+
+! Create VLAN and map to VNI
+vlan 100
+  name Production
+  vn-segment 10000
+
+! NVE Interface
+interface nve1
+  no shutdown
+  source-interface loopback0
+  member vni 10000
+    mcast-group 239.1.1.1</pre>
+            </div>
+
+            <div class="lab-step">
+                <h4>Lab 2: BGP EVPN Setup (Cisco)</h4>
+                <p><strong>Objective:</strong> Add BGP EVPN control plane</p>
+                <pre>
+! Enable BGP EVPN
+nv overlay evpn
+
+router bgp 65000
+  neighbor 10.0.0.1 remote-as 65000
+    address-family l2vpn evpn
+      send-community extended
+
+evpn
+  vni 10000 l2
+    rd auto
+    route-target import auto
+    route-target export auto</pre>
+            </div>
+
+            <div class="lab-step">
+                <h4>Lab 3: VXLAN with Juniper</h4>
+                <p><strong>Objective:</strong> Configure EVPN-VXLAN on Junos</p>
+                <pre>
+# VLAN and VNI
+set vlans Production vlan-id 100
+set vlans Production vxlan vni 10000
+
+# VTEP source
+set switch-options vtep-source-interface lo0.0
+set switch-options route-distinguisher 10.0.1.1:1
+set switch-options vrf-target target:65000:1
+
+# EVPN
+set protocols evpn encapsulation vxlan
+set protocols evpn extended-vni-list 10000</pre>
+            </div>
+
+            <div class="lab-step">
+                <h4>Lab 4: Verification Commands</h4>
+                <pre>
+! Cisco
+show nve peers
+show nve vni
+show bgp l2vpn evpn summary
+show bgp l2vpn evpn route-type 2
+
+! Juniper
+show ethernet-switching vxlan-tunnel-end-point remote
+show evpn database
+show route table bgp.evpn.0</pre>
+            </div>
+        </section>
+
+        <!-- PART X -->
+        <div class="part-header" id="part10">
+            <h2>Part X: Interview Preparation</h2>
+            <p>Questions from basic to consultant level</p>
+        </div>
+
+        <section class="section" id="interview">
+            <h2>Interview Questions & Answers</h2>
+
+            <h3>Basic Level</h3>
+
+            <div class="interview-qa">
+                <div class="question">Q1: What is a VLAN?</div>
+                <div class="answer">
+                    <p>A VLAN (Virtual Local Area Network) is a logical grouping of network devices that allows them to communicate as if they were on the same physical network segment. VLANs create separate broadcast domains within a switch.</p>
+                    <p><strong>Key points:</strong></p>
+                    <ul>
+                        <li>VLAN IDs: 1-4094</li>
+                        <li>802.1Q standard for tagging</li>
+                        <li>Access ports (single VLAN) vs Trunk ports (multiple VLANs)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="interview-qa">
+                <div class="question">Q2: How does a switch build its MAC address table?</div>
+                <div class="answer">
+                    <p>Through source MAC learning:</p>
+                    <ol>
+                        <li>Frame arrives on a port</li>
+                        <li>Switch records source MAC + port</li>
+                        <li>Timer starts (default 300 seconds)</li>
+                        <li>Entry refreshed on each frame</li>
+                        <li>Aged out if timer expires</li>
+                    </ol>
+                    <p>For forwarding: Known MAC = specific port; Unknown = flood</p>
+                </div>
+            </div>
+
+            <div class="interview-qa">
+                <div class="question">Q3: What is VXLAN and why was it developed?</div>
+                <div class="answer">
+                    <p>VXLAN (Virtual Extensible LAN) creates Layer 2 overlay networks over Layer 3 infrastructure.</p>
+                    <p><strong>Why developed:</strong></p>
+                    <ul>
+                        <li>VLANs limited to 4,094; VXLAN has 16 million VNIs</li>
+                        <li>STP blocks links; VXLAN uses ECMP</li>
+                        <li>VLANs can't cross L3; VXLAN can</li>
+                        <li>Cloud scale and multi-tenancy requirements</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3>Intermediate Level</h3>
+
+            <div class="interview-qa">
+                <div class="question">Q4: Explain BGP EVPN and its route types.</div>
+                <div class="answer">
+                    <p>BGP EVPN distributes MAC and IP reachability information across VXLAN fabrics.</p>
+                    <p><strong>Route Types:</strong></p>
+                    <ul>
+                        <li><strong>Type-1:</strong> Ethernet Auto-Discovery (multi-homing)</li>
+                        <li><strong>Type-2:</strong> MAC/IP Advertisement (most common)</li>
+                        <li><strong>Type-3:</strong> Inclusive Multicast (BUM handling)</li>
+                        <li><strong>Type-4:</strong> Ethernet Segment (DF election)</li>
+                        <li><strong>Type-5:</strong> IP Prefix (external routing)</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="interview-qa">
+                <div class="question">Q5: How does traffic flow between two hosts in different VXLANs?</div>
+                <div class="answer">
+                    <p>Inter-VXLAN routing using Symmetric IRB:</p>
+                    <ol>
+                        <li>Source sends to anycast gateway on local leaf</li>
+                        <li>Leaf routes in VRF, determines destination subnet</li>
+                        <li>Encapsulates with L3VNI for tenant VRF</li>
+                        <li>Routes through spines to destination leaf</li>
+                        <li>Destination leaf decapsulates L3VNI</li>
+                        <li>Routes to destination L2VNI</li>
+                        <li>Forwards to destination host</li>
+                    </ol>
+                    <p><strong>Key:</strong> L2VNI for bridging, L3VNI for routing between subnets</p>
+                </div>
+            </div>
+
+            <h3>Advanced/Consultant Level</h3>
+
+            <div class="interview-qa">
+                <div class="question">Q6: Compare Cisco SD-Access with Juniper Campus Fabric.</div>
+                <div class="answer">
+                    <p><strong>Key Differences:</strong></p>
+                    <ul>
+                        <li><strong>Control Plane:</strong> Cisco uses LISP; Juniper uses BGP EVPN</li>
+                        <li><strong>Management:</strong> DNA Center is mandatory for Cisco; Juniper is flexible</li>
+                        <li><strong>Segmentation:</strong> Cisco uses SGT/TrustSec; Juniper uses micro-segmentation</li>
+                        <li><strong>Underlay:</strong> Cisco auto-provisions IS-IS; Juniper uses eBGP or OSPF</li>
+                    </ul>
+                    <p>Cisco is more prescriptive; Juniper is more modular.</p>
+                </div>
+            </div>
+
+            <div class="interview-qa">
+                <div class="question">Q7: How would you troubleshoot VXLAN connectivity issues?</div>
+                <div class="answer">
+                    <p><strong>Systematic approach:</strong></p>
+                    <ol>
+                        <li><strong>Underlay:</strong> Check OSPF/BGP neighbors, ping VTEP IPs, verify MTU (9000+)</li>
+                        <li><strong>VXLAN Config:</strong> Verify NVE interface, VNI mappings</li>
+                        <li><strong>Control Plane:</strong> Check BGP EVPN neighbors and routes</li>
+                        <li><strong>NVE Peers:</strong> Verify peer state and VNIs</li>
+                        <li><strong>MAC Learning:</strong> Check local and remote MAC entries</li>
+                    </ol>
+                    <p><strong>Common issues:</strong> MTU too small, underlay not advertising loopbacks, NVE source mismatch</p>
+                </div>
+            </div>
+
+            <div class="interview-qa">
+                <div class="question">Q8: Design a VXLAN fabric for 10,000 endpoints.</div>
+                <div class="answer">
+                    <p><strong>Key Design Decisions:</strong></p>
+                    <ul>
+                        <li><strong>Spine Layer:</strong> 4 spines with 48x 100G ports each</li>
+                        <li><strong>Leaf Layer:</strong> 13+ leaves (800 endpoints per leaf)</li>
+                        <li><strong>Underlay:</strong> eBGP (unique AS per leaf)</li>
+                        <li><strong>Overlay:</strong> VXLAN with BGP EVPN, ingress replication</li>
+                        <li><strong>Gateway:</strong> Anycast gateway on all leaves</li>
+                        <li><strong>HA:</strong> vPC/MC-LAG at leaf, ECMP across spines</li>
+                        <li><strong>External:</strong> Dual border leaves with firewall integration</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Glossary -->
+        <section class="section" id="glossary">
+            <h2>Glossary</h2>
+            <div class="table-container">
+                <table>
+                    <tr>
+                        <th>Term</th>
+                        <th>Definition</th>
+                    </tr>
+                    <tr><td>ARP</td><td>Address Resolution Protocol - maps IP to MAC</td></tr>
+                    <tr><td>BGP</td><td>Border Gateway Protocol - routing protocol</td></tr>
+                    <tr><td>BUM</td><td>Broadcast, Unknown unicast, Multicast traffic</td></tr>
+                    <tr><td>CAM</td><td>Content Addressable Memory (MAC table)</td></tr>
+                    <tr><td>Clos</td><td>Multi-stage non-blocking network topology</td></tr>
+                    <tr><td>ECMP</td><td>Equal-Cost Multi-Path load balancing</td></tr>
+                    <tr><td>EVPN</td><td>Ethernet VPN - BGP extension for L2/L3</td></tr>
+                    <tr><td>IRB</td><td>Integrated Routing and Bridging</td></tr>
+                    <tr><td>VNI</td><td>VXLAN Network Identifier</td></tr>
+                    <tr><td>VTEP</td><td>VXLAN Tunnel Endpoint</td></tr>
+                    <tr><td>VRF</td><td>Virtual Routing and Forwarding</td></tr>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p><strong>VXLAN Fabric Technology - Student Guide</strong></p>
+        <p>Version 1.1.0 | January 2026</p>
+        <p>This guide is designed for educational purposes.</p>
+    </footer>
+
+    <a href="#top" class="back-to-top" id="backToTop">^</a>
+
+    <script>
+        // Toggle navigation
+        function toggleNav() {
+            document.getElementById('toc').classList.toggle('active');
+        }
+
+        // Back to top button visibility
+        window.addEventListener('scroll', function() {
+            const backToTop = document.getElementById('backToTop');
+            if (window.pageYOffset > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

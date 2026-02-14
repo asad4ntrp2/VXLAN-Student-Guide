@@ -1,0 +1,748 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- VXLAN Student Guide Diagrams - Version 1.1.0 -->
+<!-- Last Updated: 2026-01-24 -->
+<!-- Changes: Added interface numbers, traffic flow visualization, port labels -->
+<mxfile host="app.diagrams.net" modified="2026-01-24T20:00:00.000Z" agent="VXLAN Student Guide" version="21.0.0" pages="8">
+  <!-- Page 1: VLAN Fundamentals -->
+  <diagram id="vlan-fundamentals" name="1. VLAN Fundamentals">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Title -->
+        <mxCell id="title1" value="VLAN Fundamentals" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="275" y="20" width="300" height="40" as="geometry" />
+        </mxCell>
+        <!-- Switch -->
+        <mxCell id="switch1" value="Layer 2 Switch" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="275" y="200" width="300" height="60" as="geometry" />
+        </mxCell>
+        <!-- VLAN 10 Box -->
+        <mxCell id="vlan10box" value="VLAN 10 (Sales)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="100" y="100" width="150" height="40" as="geometry" />
+        </mxCell>
+        <!-- VLAN 20 Box -->
+        <mxCell id="vlan20box" value="VLAN 20 (Engineering)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="600" y="100" width="150" height="40" as="geometry" />
+        </mxCell>
+        <!-- PC-A -->
+        <mxCell id="pca" value="PC-A&#xa;VLAN 10&#xa;10.1.10.10" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="100" y="350" width="60" height="54" as="geometry" />
+        </mxCell>
+        <!-- PC-B -->
+        <mxCell id="pcb" value="PC-B&#xa;VLAN 10&#xa;10.1.10.20" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="220" y="350" width="60" height="54" as="geometry" />
+        </mxCell>
+        <!-- PC-C -->
+        <mxCell id="pcc" value="PC-C&#xa;VLAN 20&#xa;10.1.20.10" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="570" y="350" width="60" height="54" as="geometry" />
+        </mxCell>
+        <!-- PC-D -->
+        <mxCell id="pcd" value="PC-D&#xa;VLAN 20&#xa;10.1.20.20" style="shape=mxgraph.cisco.computers_and_peripherals.pc;html=1;pointerEvents=1;dashed=0;fillColor=#fff2cc;strokeColor=#d6b656;strokeWidth=2;verticalLabelPosition=bottom;verticalAlign=top;align=center;outlineConnect=0;" vertex="1" parent="1">
+          <mxGeometry x="690" y="350" width="60" height="54" as="geometry" />
+        </mxCell>
+        <!-- Connections with Interface Labels -->
+        <mxCell id="conn1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="pca" target="switch1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="port1" value="Gi0/1" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=9;fontStyle=1;fontColor=#82b366" vertex="1" parent="1">
+          <mxGeometry x="110" y="290" width="40" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="conn2" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1" source="pcb" target="switch1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="port2" value="Gi0/2" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=9;fontStyle=1;fontColor=#82b366" vertex="1" parent="1">
+          <mxGeometry x="230" y="290" width="40" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="conn3" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="pcc" target="switch1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="port3" value="Gi0/3" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=9;fontStyle=1;fontColor=#d6b656" vertex="1" parent="1">
+          <mxGeometry x="580" y="290" width="40" height="15" as="geometry" />
+        </mxCell>
+        <mxCell id="conn4" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#d6b656;" edge="1" parent="1" source="pcd" target="switch1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="port4" value="Gi0/4" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=9;fontStyle=1;fontColor=#d6b656" vertex="1" parent="1">
+          <mxGeometry x="700" y="290" width="40" height="15" as="geometry" />
+        </mxCell>
+        <!-- Port Configuration Table -->
+        <mxCell id="porttable" value="Port Configuration" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=22;fillColor=#1a1a2e;fontColor=#ffffff;strokeColor=#1a1a2e" vertex="1" parent="1">
+          <mxGeometry x="400" y="480" width="350" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="ptheader" value="Port    | Mode   | VLAN | Status" style="text;strokeColor=none;fillColor=#333;align=left;verticalAlign=middle;spacingLeft=4;fontSize=10;fontStyle=1;fontColor=#ffffff" vertex="1" parent="porttable">
+          <mxGeometry y="22" width="350" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="ptrow1" value="Gi0/1  | Access | 10   | Connected (PC-A)" style="text;strokeColor=none;fillColor=#d5e8d4;align=left;verticalAlign=middle;spacingLeft=4;fontSize=10" vertex="1" parent="porttable">
+          <mxGeometry y="44" width="350" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="ptrow2" value="Gi0/2  | Access | 10   | Connected (PC-B)" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=4;fontSize=10" vertex="1" parent="porttable">
+          <mxGeometry y="66" width="350" height="22" as="geometry" />
+        </mxCell>
+        <mxCell id="ptrow3" value="Gi0/3  | Access | 20   | Connected (PC-C)" style="text;strokeColor=none;fillColor=#fff2cc;align=left;verticalAlign=middle;spacingLeft=4;fontSize=10" vertex="1" parent="porttable">
+          <mxGeometry y="88" width="350" height="22" as="geometry" />
+        </mxCell>
+        <!-- Legend -->
+        <mxCell id="legend1" value="Legend:&#xa;- Green: VLAN 10 (Sales)&#xa;- Yellow: VLAN 20 (Engineering)&#xa;- Devices in same VLAN can communicate&#xa;- Different VLANs require L3 routing" style="text;html=1;strokeColor=#666666;fillColor=#f5f5f5;align=left;verticalAlign=top;whiteSpace=wrap;rounded=1;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="50" y="500" width="250" height="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- Page 2: CAM Table Building -->
+  <diagram id="cam-table" name="2. CAM Table Building">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Title -->
+        <mxCell id="title2" value="CAM Table Learning Process" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="225" y="20" width="400" height="40" as="geometry" />
+        </mxCell>
+        <!-- Step 1 -->
+        <mxCell id="step1box" value="Step 1: Frame Arrives" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="step1switch" value="Switch&#xa;CAM: Empty" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="100" y="130" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="step1pc" value="PC-A&#xa;AA:AA" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="100" y="220" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="step1arrow" value="Frame" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#82b366;" edge="1" parent="1">
+          <mxGeometry x="-0.2" y="10" relative="1" as="geometry">
+            <mxPoint x="130" y="220" as="sourcePoint" />
+            <mxPoint x="130" y="180" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Step 2 -->
+        <mxCell id="step2box" value="Step 2: Learn Source MAC" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="300" y="80" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="step2switch" value="Switch&#xa;CAM:&#xa;AA:AA -> P1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="350" y="130" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step2note" value="Source MAC learned!" style="text;html=1;strokeColor=#82b366;fillColor=#d5e8d4;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="330" y="210" width="140" height="30" as="geometry" />
+        </mxCell>
+        <!-- Step 3 -->
+        <mxCell id="step3box" value="Step 3: Destination Unknown = Flood" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="550" y="80" width="250" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="step3switch" value="Switch&#xa;Dest BB:BB&#xa;NOT FOUND" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12" vertex="1" parent="1">
+          <mxGeometry x="625" y="130" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="step3pc1" value="P2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="580" y="220" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="step3pc2" value="P3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="655" y="220" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="step3pc3" value="P4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="730" y="220" width="40" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="floodarrow1" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#d6b656;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="660" y="190" as="sourcePoint" />
+            <mxPoint x="600" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="floodarrow2" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#d6b656;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="675" y="190" as="sourcePoint" />
+            <mxPoint x="675" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="floodarrow3" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#d6b656;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="690" y="190" as="sourcePoint" />
+            <mxPoint x="750" y="220" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Final CAM Table -->
+        <mxCell id="camtable" value="Final CAM Table" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="325" y="300" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="camheader" value="MAC Address | Port | VLAN | Timer" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#1a1a2e;strokeColor=#1a1a2e;fontColor=#ffffff;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="250" y="340" width="350" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="camrow1" value="AA:AA:AA:AA:AA:AA | P1 | 10 | 300s" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="250" y="365" width="350" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="camrow2" value="BB:BB:BB:BB:BB:BB | P2 | 10 | 295s" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="250" y="390" width="350" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="camrow3" value="CC:CC:CC:CC:CC:CC | P3 | 20 | 180s" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="250" y="415" width="350" height="25" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- Page 3: VXLAN Encapsulation -->
+  <diagram id="vxlan-encap" name="3. VXLAN Encapsulation">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Title -->
+        <mxCell id="title3" value="VXLAN Encapsulation Format" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="225" y="20" width="400" height="40" as="geometry" />
+        </mxCell>
+        <!-- Original Frame Label -->
+        <mxCell id="origlabel" value="Original Ethernet Frame:" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="200" height="30" as="geometry" />
+        </mxCell>
+        <!-- Original Frame -->
+        <mxCell id="origdst" value="Dst MAC" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="50" y="120" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="origsrc" value="Src MAC" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="150" y="120" width="100" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="origtype" value="Type" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="250" y="120" width="60" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="origpayload" value="Payload" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="310" y="120" width="150" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="origfcs" value="FCS" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="460" y="120" width="60" height="40" as="geometry" />
+        </mxCell>
+        <!-- Arrow -->
+        <mxCell id="encaparrow" value="VXLAN Encapsulation" style="shape=flexArrow;endArrow=classic;html=1;strokeWidth=2;fillColor=#6c8ebf;strokeColor=#1a1a2e;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="275" y="190" as="sourcePoint" />
+            <mxPoint x="275" y="250" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- VXLAN Encapsulated Label -->
+        <mxCell id="vxlanlabel" value="VXLAN Encapsulated Packet:" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="270" width="250" height="30" as="geometry" />
+        </mxCell>
+        <!-- VXLAN Frame -->
+        <mxCell id="outerl2" value="Outer&#xa;L2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="50" y="310" width="60" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="outerip" value="Outer&#xa;IP" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="110" y="310" width="60" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="udp" value="UDP&#xa;4789" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="170" y="310" width="50" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vxlanhdr" value="VXLAN&#xa;VNI" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="220" y="310" width="60" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="innerframe" value="Original Ethernet Frame" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="280" y="310" width="220" height="50" as="geometry" />
+        </mxCell>
+        <!-- Labels -->
+        <mxCell id="vteplabel" value="VTEP IPs" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#d6b656" vertex="1" parent="1">
+          <mxGeometry x="110" y="360" width="60" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vnilabel" value="24-bit VNI&#xa;(16M segments)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=10;fontColor=#6c8ebf" vertex="1" parent="1">
+          <mxGeometry x="205" y="360" width="90" height="30" as="geometry" />
+        </mxCell>
+        <!-- Comparison Box -->
+        <mxCell id="compbox" value="VLAN vs VXLAN Comparison" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=30;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#1a1a2e;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="430" width="450" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="comprow1" value="Feature          |  VLAN           |  VXLAN" style="text;strokeColor=none;fillColor=#333;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11;fontStyle=1" vertex="1" parent="compbox">
+          <mxGeometry y="30" width="450" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="comprow2" value="Segment ID Size  |  12 bits (4K)   |  24 bits (16M)" style="text;strokeColor=none;fillColor=#444;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="compbox">
+          <mxGeometry y="54" width="450" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="comprow3" value="Transport        |  Layer 2        |  Layer 3 (UDP)" style="text;strokeColor=none;fillColor=#333;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="compbox">
+          <mxGeometry y="78" width="450" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="comprow4" value="Spanning Tree    |  Required       |  Not Needed" style="text;strokeColor=none;fillColor=#444;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="compbox">
+          <mxGeometry y="102" width="450" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="comprow5" value="Redundancy       |  Active/Standby |  Active/Active (ECMP)" style="text;strokeColor=none;fillColor=#333;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="compbox">
+          <mxGeometry y="126" width="450" height="24" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- Page 4: Leaf-Spine Clos Architecture -->
+  <diagram id="clos-arch" name="4. Clos Architecture">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Title -->
+        <mxCell id="title4" value="Leaf-Spine Clos Architecture" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="225" y="20" width="400" height="40" as="geometry" />
+        </mxCell>
+        <!-- Spine Layer Label -->
+        <mxCell id="spinelabel" value="SPINE LAYER" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#2563eb" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="120" height="30" as="geometry" />
+        </mxCell>
+        <!-- Spines -->
+        <mxCell id="spine1" value="Spine 1&#xa;10.0.0.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="175" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="spine2" value="Spine 2&#xa;10.0.0.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="325" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="spine3" value="Spine 3&#xa;10.0.0.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="475" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="spine4" value="Spine 4&#xa;10.0.0.4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="625" y="80" width="100" height="50" as="geometry" />
+        </mxCell>
+        <!-- Leaf Layer Label -->
+        <mxCell id="leaflabel" value="LEAF LAYER (VTEPs)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#10b981" vertex="1" parent="1">
+          <mxGeometry x="50" y="200" width="150" height="30" as="geometry" />
+        </mxCell>
+        <!-- Leaves -->
+        <mxCell id="leaf1" value="Leaf 1&#xa;VTEP&#xa;10.0.1.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="125" y="200" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="leaf2" value="Leaf 2&#xa;VTEP&#xa;10.0.1.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="275" y="200" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="leaf3" value="Leaf 3&#xa;VTEP&#xa;10.0.1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="425" y="200" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="leaf4" value="Leaf 4&#xa;VTEP&#xa;10.0.1.4" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="575" y="200" width="80" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="leaf5" value="Leaf 5&#xa;VTEP&#xa;10.0.1.5" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="725" y="200" width="80" height="60" as="geometry" />
+        </mxCell>
+        <!-- Server Layer Label -->
+        <mxCell id="serverlabel" value="SERVER LAYER" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#8b5cf6" vertex="1" parent="1">
+          <mxGeometry x="50" y="320" width="120" height="30" as="geometry" />
+        </mxCell>
+        <!-- Servers -->
+        <mxCell id="server1" value="Servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="135" y="320" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="server2" value="Servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="285" y="320" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="server3" value="Servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="435" y="320" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="server4" value="Servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="585" y="320" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="server5" value="Servers" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="735" y="320" width="60" height="30" as="geometry" />
+        </mxCell>
+        <!-- Leaf-Spine Connections with Interface Numbers -->
+        <mxCell id="ls11" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="165" y="200" as="sourcePoint" />
+            <mxPoint x="225" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ls11lbl" value="Eth1/49" style="text;fontSize=8;fontColor=#666" vertex="1" parent="1">
+          <mxGeometry x="170" y="155" width="40" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="ls12" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#666;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="165" y="200" as="sourcePoint" />
+            <mxPoint x="375" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ls12lbl" value="Eth1/50" style="text;fontSize=8;fontColor=#666" vertex="1" parent="1">
+          <mxGeometry x="230" y="155" width="40" height="12" as="geometry" />
+        </mxCell>
+        <!-- Key Properties Box -->
+        <mxCell id="propbox" value="Clos Architecture Properties" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#2563eb;fontColor=#ffffff;strokeColor=#1e40af;" vertex="1" parent="1">
+          <mxGeometry x="50" y="400" width="350" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="prop1" value="Non-blocking: Full bandwidth between any endpoints" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontSize=11" vertex="1" parent="propbox">
+          <mxGeometry y="26" width="350" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="prop2" value="Predictable: Consistent 2-hop latency (Leaf-Spine-Leaf)" style="text;strokeColor=none;fillColor=#f0f0f0;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontSize=11" vertex="1" parent="propbox">
+          <mxGeometry y="52" width="350" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="prop3" value="ECMP: All links active, load balanced" style="text;strokeColor=none;fillColor=#ffffff;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontSize=11" vertex="1" parent="propbox">
+          <mxGeometry y="78" width="350" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="prop4" value="Scalable: Add spines for bandwidth, leaves for ports" style="text;strokeColor=none;fillColor=#f0f0f0;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontSize=11" vertex="1" parent="propbox">
+          <mxGeometry y="104" width="350" height="26" as="geometry" />
+        </mxCell>
+        <!-- Traffic Path Highlight -->
+        <mxCell id="pathbox" value="Traffic Path: Leaf1 -> Any Spine -> Leaf3&#xa;(Always 2 hops with ECMP)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="420" width="250" height="50" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- Page 5: Underlay vs Overlay -->
+  <diagram id="underlay-overlay" name="5. Underlay vs Overlay">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Title -->
+        <mxCell id="title5" value="Underlay vs Overlay Networks" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="225" y="20" width="400" height="40" as="geometry" />
+        </mxCell>
+        <!-- Overlay Box -->
+        <mxCell id="overlaybox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=3;opacity=30" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="750" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="overlaylabel" value="OVERLAY NETWORK (Virtual Layer 2 - VNI 10000)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#82b366" vertex="1" parent="1">
+          <mxGeometry x="250" y="85" width="350" height="25" as="geometry" />
+        </mxCell>
+        <mxCell id="vma" value="VM-A&#xa;VLAN 100" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="100" y="120" width="80" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="vmb" value="VM-B&#xa;VLAN 100" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="670" y="120" width="80" height="45" as="geometry" />
+        </mxCell>
+        <mxCell id="overlayline" value="Logical L2 Connection" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=2;strokeColor=#82b366;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="185" y="142" as="sourcePoint" />
+            <mxPoint x="665" y="142" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- VXLAN Encapsulation Arrow -->
+        <mxCell id="encaparrow2" value="VXLAN Encapsulation" style="shape=flexArrow;endArrow=classic;startArrow=classic;html=1;strokeWidth=1;fillColor=#9673a6;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="425" y="195" as="sourcePoint" />
+            <mxPoint x="425" y="235" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Underlay Box -->
+        <mxCell id="underlaybox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=3;opacity=30" vertex="1" parent="1">
+          <mxGeometry x="50" y="250" width="750" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="underlaylabel" value="UNDERLAY NETWORK (Physical Layer 3 - IP)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=14;fontStyle=1;fontColor=#6c8ebf" vertex="1" parent="1">
+          <mxGeometry x="275" y="255" width="300" height="25" as="geometry" />
+        </mxCell>
+        <!-- Underlay Devices -->
+        <mxCell id="vtep1" value="VTEP-1&#xa;10.0.1.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="100" y="300" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uspine1" value="Spine 1&#xa;10.0.0.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="300" y="300" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="uspine2" value="Spine 2&#xa;10.0.0.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="475" y="300" width="80" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="vtep2" value="VTEP-2&#xa;10.0.1.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="670" y="300" width="80" height="50" as="geometry" />
+        </mxCell>
+        <!-- Underlay connections -->
+        <mxCell id="uconn1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="180" y="325" as="sourcePoint" />
+            <mxPoint x="300" y="325" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uconn2" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="180" y="325" as="sourcePoint" />
+            <mxPoint x="475" y="325" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uconn3" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="380" y="325" as="sourcePoint" />
+            <mxPoint x="670" y="325" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uconn4" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#6c8ebf;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="555" y="325" as="sourcePoint" />
+            <mxPoint x="670" y="325" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Comparison Table -->
+        <mxCell id="comptable" value="Comparison" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#1a1a2e;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="200" y="450" width="450" height="130" as="geometry" />
+        </mxCell>
+        <mxCell id="cthead" value="Aspect          |  Underlay        |  Overlay" style="text;strokeColor=none;fillColor=#333;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11;fontStyle=1" vertex="1" parent="comptable">
+          <mxGeometry y="26" width="450" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ctrow1" value="Layer           |  Layer 3 (IP)    |  Layer 2 (logical)" style="text;strokeColor=none;fillColor=#444;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="comptable">
+          <mxGeometry y="52" width="450" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ctrow2" value="Protocol        |  OSPF/BGP/IS-IS  |  VXLAN" style="text;strokeColor=none;fillColor=#333;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="comptable">
+          <mxGeometry y="78" width="450" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="ctrow3" value="Purpose         |  Transport       |  Tenant connectivity" style="text;strokeColor=none;fillColor=#444;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="comptable">
+          <mxGeometry y="104" width="450" height="26" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- Page 6: BGP EVPN -->
+  <diagram id="bgp-evpn" name="6. BGP EVPN Control Plane">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Title -->
+        <mxCell id="title6" value="BGP EVPN Control Plane" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="250" y="20" width="350" height="40" as="geometry" />
+        </mxCell>
+        <!-- Route Reflector -->
+        <mxCell id="rr" value="Route Reflector&#xa;(Spine / RR)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="350" y="80" width="150" height="50" as="geometry" />
+        </mxCell>
+        <!-- Leaves -->
+        <mxCell id="evpnleaf1" value="Leaf 1&#xa;VTEP&#xa;10.0.1.1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="150" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="evpnleaf2" value="Leaf 2&#xa;VTEP&#xa;10.0.1.2" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="375" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="evpnleaf3" value="Leaf 3&#xa;VTEP&#xa;10.0.1.3" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="600" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+        <!-- iBGP connections -->
+        <mxCell id="ibgp1" value="iBGP EVPN" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=2;strokeColor=#b85450;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="200" as="sourcePoint" />
+            <mxPoint x="390" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ibgp2" value="" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=2;strokeColor=#b85450;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="425" y="200" as="sourcePoint" />
+            <mxPoint x="425" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="ibgp3" value="" style="endArrow=classic;startArrow=classic;html=1;strokeWidth=2;strokeColor=#b85450;dashed=1;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="650" y="200" as="sourcePoint" />
+            <mxPoint x="460" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <!-- Hosts with Interface Labels -->
+        <mxCell id="hosta" value="Host A&#xa;MAC-A&#xa;10.100.1.10" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="155" y="310" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hostb" value="Host B&#xa;MAC-B&#xa;10.100.1.20" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="380" y="310" width="90" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="hostc" value="Host C&#xa;MAC-C&#xa;10.100.2.10" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="605" y="310" width="90" height="50" as="geometry" />
+        </mxCell>
+        <!-- Host-Leaf Connection Labels -->
+        <mxCell id="evpnconn1" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="200" y="310" as="sourcePoint" />
+            <mxPoint x="200" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="evpnif1" value="Eth1/1" style="text;fontSize=8;fontColor=#9673a6" vertex="1" parent="1">
+          <mxGeometry x="205" y="280" width="35" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="evpnconn2" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="425" y="310" as="sourcePoint" />
+            <mxPoint x="425" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="evpnif2" value="Eth1/1" style="text;fontSize=8;fontColor=#9673a6" vertex="1" parent="1">
+          <mxGeometry x="430" y="280" width="35" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="evpnconn3" style="endArrow=none;html=1;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="650" y="310" as="sourcePoint" />
+            <mxPoint x="650" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="evpnif3" value="Eth1/1" style="text;fontSize=8;fontColor=#9673a6" vertex="1" parent="1">
+          <mxGeometry x="655" y="280" width="35" height="12" as="geometry" />
+        </mxCell>
+        <!-- Route Types Table -->
+        <mxCell id="routetypes" value="EVPN Route Types" style="swimlane;fontStyle=1;childLayout=stackLayout;horizontal=1;startSize=26;horizontalStack=0;resizeParent=1;resizeParentMax=0;resizeLast=0;collapsible=0;marginBottom=0;fillColor=#2563eb;fontColor=#ffffff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="400" width="400" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="rthead" value="Type  |  Name                    |  Purpose" style="text;strokeColor=none;fillColor=#333;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11;fontStyle=1" vertex="1" parent="routetypes">
+          <mxGeometry y="26" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="rt1" value="Type-1 |  Ethernet Auto-Discovery  |  Multi-homing" style="text;strokeColor=none;fillColor=#444;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="routetypes">
+          <mxGeometry y="52" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="rt2" value="Type-2 |  MAC/IP Advertisement     |  MAC reachability" style="text;strokeColor=none;fillColor=#333;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#10b981;fontSize=11;fontStyle=1" vertex="1" parent="routetypes">
+          <mxGeometry y="78" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="rt3" value="Type-3 |  Inclusive Multicast      |  BUM handling" style="text;strokeColor=none;fillColor=#444;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="routetypes">
+          <mxGeometry y="104" width="400" height="26" as="geometry" />
+        </mxCell>
+        <mxCell id="rt4" value="Type-5 |  IP Prefix                |  External routing" style="text;strokeColor=none;fillColor=#333;align=left;verticalAlign=middle;spacingLeft=4;spacingRight=4;overflow=hidden;points=[[0,0.5],[1,0.5]];portConstraint=eastwest;rotatable=0;fontColor=#ffffff;fontSize=11" vertex="1" parent="routetypes">
+          <mxGeometry y="130" width="400" height="26" as="geometry" />
+        </mxCell>
+        <!-- Learning Process -->
+        <mxCell id="learningbox" value="MAC Learning via EVPN:&#xa;1. Host A connects to Leaf 1&#xa;2. Leaf 1 learns MAC-A locally&#xa;3. Leaf 1 sends Type-2 route via BGP&#xa;4. All leaves learn: MAC-A -> VTEP 10.0.1.1&#xa;5. No flooding required!" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10" vertex="1" parent="1">
+          <mxGeometry x="500" y="400" width="300" height="120" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- Page 7: Traffic Flow -->
+  <diagram id="traffic-flow" name="7. VXLAN Traffic Flow">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Title -->
+        <mxCell id="title7" value="VXLAN Traffic Flow (Same VNI)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=24;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="225" y="20" width="400" height="40" as="geometry" />
+        </mxCell>
+        <!-- Server A -->
+        <mxCell id="servera" value="Server A&#xa;10.100.1.10&#xa;VLAN 100" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="100" height="60" as="geometry" />
+        </mxCell>
+        <!-- Leaf 1 -->
+        <mxCell id="tfleaf1" value="Leaf 1 (VTEP-1)&#xa;10.0.1.1&#xa;Encapsulate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+        <!-- Spines -->
+        <mxCell id="tfspine" value="Spine Layer&#xa;(ECMP)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="325" y="200" width="200" height="60" as="geometry" />
+        </mxCell>
+        <!-- Leaf 2 -->
+        <mxCell id="tfleaf2" value="Leaf 2 (VTEP-2)&#xa;10.0.1.2&#xa;Decapsulate" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="700" y="200" width="100" height="60" as="geometry" />
+        </mxCell>
+        <!-- Server B -->
+        <mxCell id="serverb" value="Server B&#xa;10.100.1.20&#xa;VLAN 100" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="700" y="80" width="100" height="60" as="geometry" />
+        </mxCell>
+        <!-- Interface Labels -->
+        <mxCell id="if_srv_a" value="eth0" style="text;fontSize=9;fontColor=#9673a6;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="60" y="142" width="30" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="if_leaf1_down" value="Eth1/1" style="text;fontSize=9;fontColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="110" y="142" width="40" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="if_leaf1_up" value="Eth1/49-50" style="text;fontSize=9;fontColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="155" y="225" width="60" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="if_spine_left" value="Eth1/1-48" style="text;fontSize=9;fontColor=#6c8ebf;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="330" y="255" width="60" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="if_spine_right" value="Eth1/1-48" style="text;fontSize=9;fontColor=#6c8ebf;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="460" y="255" width="60" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="if_leaf2_up" value="Eth1/49-50" style="text;fontSize=9;fontColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="640" y="225" width="60" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="if_leaf2_down" value="Eth1/1" style="text;fontSize=9;fontColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="710" y="142" width="40" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="if_srv_b" value="eth0" style="text;fontSize=9;fontColor=#9673a6;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="760" y="142" width="30" height="12" as="geometry" />
+        </mxCell>
+        <!-- Connections with Step Numbers -->
+        <mxCell id="tfarrow1" value="Step 1" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry x="-0.2" y="10" relative="1" as="geometry">
+            <mxPoint x="100" y="145" as="sourcePoint" />
+            <mxPoint x="100" y="195" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="step1desc" value="Original L2 Frame" style="text;fontSize=9;fontColor=#9673a6" vertex="1" parent="1">
+          <mxGeometry x="50" y="165" width="90" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="tfarrow2" value="Step 2" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#82b366;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="155" y="230" as="sourcePoint" />
+            <mxPoint x="320" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="step2desc" value="VXLAN Encapsulated (VNI 10000)" style="text;fontSize=9;fontColor=#82b366" vertex="1" parent="1">
+          <mxGeometry x="175" y="240" width="140" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="tfarrow3" value="Step 3" style="endArrow=classic;html=1;strokeWidth=3;strokeColor=#6c8ebf;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="530" y="230" as="sourcePoint" />
+            <mxPoint x="695" y="230" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="step3desc" value="IP Routed via ECMP" style="text;fontSize=9;fontColor=#6c8ebf" vertex="1" parent="1">
+          <mxGeometry x="570" y="240" width="100" height="12" as="geometry" />
+        </mxCell>
+        <mxCell id="tfarrow4" value="Step 4" style="endArrow=classic;html=1;strokeWidth=2;strokeColor=#9673a6;" edge="1" parent="1">
+          <mxGeometry x="-0.2" y="10" relative="1" as="geometry">
+            <mxPoint x="750" y="195" as="sourcePoint" />
+            <mxPoint x="750" y="145" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="step4desc" value="Decapsulated Frame" style="text;fontSize=9;fontColor=#9673a6" vertex="1" parent="1">
+          <mxGeometry x="755" y="165" width="95" height="12" as="geometry" />
+        </mxCell>
+        <!-- Packet Details -->
+        <mxCell id="pktdetails" value="VXLAN Packet Details:&#xa;- Outer Src IP: 10.0.1.1 (VTEP-1)&#xa;- Outer Dst IP: 10.0.1.2 (VTEP-2)&#xa;- UDP Port: 4789&#xa;- VNI: 10000&#xa;- Inner Frame: Original Ethernet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=10" vertex="1" parent="1">
+          <mxGeometry x="275" y="320" width="300" height="100" as="geometry" />
+        </mxCell>
+        <!-- BUM Traffic Section -->
+        <mxCell id="bumtitle" value="BUM Traffic Handling" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="50" y="450" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="bumbox1" value="Multicast&#xa;- VNI mapped to mcast group&#xa;- Efficient delivery" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="50" y="490" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bumbox2" value="Ingress Replication&#xa;- Unicast to each VTEP&#xa;- No mcast needed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=10" vertex="1" parent="1">
+          <mxGeometry x="225" y="490" width="150" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="bumbox3" value="BGP EVPN (Best)&#xa;- Type-3 routes&#xa;- Scalable, dynamic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="400" y="490" width="150" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+
+  <!-- Page 8: Vendor Comparison -->
+  <diagram id="vendor-compare" name="8. Vendor Comparison">
+    <mxGraphModel dx="1200" dy="800" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <!-- Title -->
+        <mxCell id="title8" value="Cisco SD-Access vs Juniper Campus Fabric" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=22;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="175" y="20" width="500" height="40" as="geometry" />
+        </mxCell>
+        <!-- Cisco Box -->
+        <mxCell id="ciscobox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="50" y="80" width="350" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="ciscotitle" value="Cisco SD-Access" style="text;html=1;strokeColor=none;fillColor=#6c8ebf;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;fontStyle=1;fontColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="125" y="90" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="ciscolist" value="Control Plane: LISP&#xa;&#xa;Data Plane: VXLAN-GPO&#xa;&#xa;Management: DNA Center (required)&#xa;&#xa;Underlay: IS-IS (auto-provisioned)&#xa;&#xa;Segmentation: SGT / TrustSec&#xa;&#xa;Hardware: Catalyst 9000 series" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;spacingLeft=10" vertex="1" parent="1">
+          <mxGeometry x="60" y="130" width="330" height="200" as="geometry" />
+        </mxCell>
+        <!-- Juniper Box -->
+        <mxCell id="juniperbox" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;strokeWidth=2" vertex="1" parent="1">
+          <mxGeometry x="450" y="80" width="350" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="junipertitle" value="Juniper Campus Fabric" style="text;html=1;strokeColor=none;fillColor=#82b366;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=1;fontSize=16;fontStyle=1;fontColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="500" y="90" width="250" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="juniperlist" value="Control Plane: BGP EVPN&#xa;&#xa;Data Plane: VXLAN&#xa;&#xa;Management: Mist Cloud / Junos Space&#xa;&#xa;Underlay: eBGP or OSPF&#xa;&#xa;Segmentation: Micro-segmentation&#xa;&#xa;Hardware: QFX/EX Series" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;whiteSpace=wrap;rounded=0;fontSize=12;spacingLeft=10" vertex="1" parent="1">
+          <mxGeometry x="460" y="130" width="330" height="200" as="geometry" />
+        </mxCell>
+        <!-- Key Differences -->
+        <mxCell id="difftitle" value="Key Differences" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=16;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="325" y="400" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="diff1" value="LISP vs EVPN: Different control plane philosophies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="150" y="440" width="550" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="diff2" value="DNA Center is mandatory for Cisco; Juniper is more flexible" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="150" y="480" width="550" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="diff3" value="Cisco is more prescriptive; Juniper is more modular" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11" vertex="1" parent="1">
+          <mxGeometry x="150" y="520" width="550" height="30" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
