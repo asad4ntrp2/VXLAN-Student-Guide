@@ -27,10 +27,8 @@ This guide walks through the full journey from traditional VLANs to modern VXLAN
 
 | File | Description |
 |------|-------------|
-| `learning.md` | Main student guide with all concepts, diagrams, and configuration examples |
-| `VXLAN_Student_Guide.html` | Interactive HTML version with styled layout, clickable table of contents, and color-coded sections |
+| `index.html` | Interactive HTML version with styled layout, clickable table of contents, and color-coded sections |
 | `VXLAN_Diagrams.drawio` | Draw.io file with multi-sheet diagrams covering fabric topology, traffic flows, and architecture |
-| `continue.md` | Project progress tracking and version history |
 
 ## How to Use
 
