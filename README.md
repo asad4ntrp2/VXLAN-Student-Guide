@@ -1,5 +1,7 @@
 # VXLAN Student Guide
 
+**🔗 Live Guide:** **[Open the interactive guide](https://asad4ntrp2.github.io/VXLAN-Student-Guide/)** — `https://asad4ntrp2.github.io/VXLAN-Student-Guide/`
+
 **Author:** Asad Yaseen
 **Contact:** asad4ntrp2@gmail.com
 
